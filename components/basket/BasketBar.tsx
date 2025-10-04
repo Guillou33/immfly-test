@@ -20,6 +20,7 @@ const _BasketBar = (props: BasketBarProps) => {
       <Snackbar
         visible={showSnackbar}
         onDismiss={() => setSnackbarVisible(!showSnackbar)}
+        duration={Number.POSITIVE_INFINITY} // Reste affiché indéfiniment
         action={{
           label: 'Pay',
           onPress: () => {

@@ -4,28 +4,25 @@ import BasketBar from '@/components/basket/BasketBar';
 import ProductsList from '@/components/product/ProductsList';
 import { hydrateProducts } from '@/Store/Action/ProductAction';
 import { AppDispatch, RootState } from '@/Store/configStore';
+import { useVisibleSnackbar } from 'hooks/useVisibleSnackbar';
 import React from 'react';
 import { connect } from 'react-redux';
+import { useHydrateProducts } from 'hooks/useHydrateRoducts';
+import { Product } from '@/constants/Store/Product';
 
 interface SodasScreenProps {
-  products: RootState["product"]["products"];
+  products: Product;
   basket: RootState["basket"]["basket"];
   hydrateProducts: () => void;
 }
 
 function _SodasScreen(props: SodasScreenProps) {
   const {products, basket, hydrateProducts} = props;
-  const [visibleSnackbar, setVisibleSnackbar] = React.useState(basket.productIds.length > 0);
+  const {visibleSnackbar, setVisibleSnackbar} = useVisibleSnackbar(basket);
 
-  React.useEffect(() => {
-    setVisibleSnackbar(basket.productIds.length > 0);
-  }, [basket]);
+  useHydrateProducts(products, hydrateProducts);
 
-  React.useEffect(() => {
-    if(Object.keys(products).length === 0){
-      hydrateProducts();
-    }
-  }, [products]);
+  console.log("Rendering Sodas Screen with sodas:", Object.values(products));
 
   return (
     <View style={styles.container}>

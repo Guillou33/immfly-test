@@ -13,6 +13,7 @@ export default function Payment() {
     <View style={styles.container}>
       <Text style={styles.title}>Payment</Text>
       <Order />
+      {/* <Method /> */}
     </View>
   );
 }
@@ -22,7 +23,6 @@ const styles = StyleSheet.create({
     // flex: 1,
     alignItems: 'center',
     paddingVertical: 20,
-    justifyContent: 'center',
     height: '100%',
   },
   title: {

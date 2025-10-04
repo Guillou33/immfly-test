@@ -2,7 +2,6 @@
 import { IBasket } from "@/constants/Store/Basket";
 import { CurrencyPrice } from "@/constants/Util";
 import { Currency } from "@/lib/conversion";
-import { ProductInBasket } from "../Action/BasketAction";
 import { ActionTypes } from "../Action/types";
 
 const initialBasket: IBasket = {
@@ -16,35 +15,58 @@ const initialBasket: IBasket = {
 }
 
 const INITIAL_STATE = {
-    basket: initialBasket
+    basket: initialBasket,
+    selectedCurrency: Currency.EUR
 }
 
 export default function productReducer(state = INITIAL_STATE, action: any) {
-    let data;
     switch (action.type) {
         case ActionTypes.UPDATE_BASKET:
-          let newBasket = state.basket;
-          data = action.payload as ProductInBasket;
+          const data = action.payload;
+          const currentQuantity = state.basket.quantities[data.productId]?.quantity || 0;
+
+          // Removing item (quantity === -1)
           if (data.quantity === -1) {
-              // Remove item from basket if quantity is 0 or less
-              if(newBasket.quantities[data.productId] === 1){
-                delete newBasket.quantities[data.productId];
-              }else{
-                newBasket.quantities[data.productId] -= 1;
+              if (currentQuantity === 0) {
+                  console.warn("Trying to remove a product that is not in the basket", data.productId);
+                  return state;
+              }
+
+              // Remove item completely if it would reach 0
+              if (currentQuantity === 1) {
+                  const { [data.productId]: removed, ...remainingQuantities } = state.basket.quantities;
+                  return {
+                      ...state,
+                      basket: {
+                          ...state.basket,
+                          productIds: state.basket.productIds.filter(id => id !== data.productId),
+                          quantities: remainingQuantities,
+                          totalPrices: setNewTotalPrices(state.basket.totalPrices, data.quantity, data.price)
+                      }
+                  };
               }
           }
-          if(data.quantity === 1){
-              // Add item to basket
-              if(state.basket.quantities[data.productId] === undefined){
-                  newBasket.quantities[data.productId] = 1;
-              }else{
-                  newBasket.quantities[data.productId] += 1;
-              }
-          }
-          newBasket.totalPrices = setNewTotalPrices(state.basket.totalPrices, data.quantity, data.price);
+
+          // Add or update item
+          const newQuantity = currentQuantity === 0 ? 1 : currentQuantity + data.quantity;
+          const needsToAddProductId = currentQuantity === 0;
+
           return {
               ...state,
-              basket: newBasket
+              basket: {
+                  ...state.basket,
+                  productIds: needsToAddProductId
+                      ? [...state.basket.productIds, data.productId]
+                      : state.basket.productIds,
+                  quantities: {
+                      ...state.basket.quantities,
+                      [data.productId]: {
+                          quantity: newQuantity,
+                          productId: data.productId
+                      }
+                  },
+                  totalPrices: setNewTotalPrices(state.basket.totalPrices, data.quantity, data.price)
+              }
           };
         default:
             return state;

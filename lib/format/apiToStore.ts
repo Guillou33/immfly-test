@@ -12,6 +12,7 @@ export const formatProducts = (products: ApiProduct[]) => {
                 [Currency.USD]: product.price.dollar,
                 [Currency.GBP]: product.price.pound
             },
+            initialStock: product.stock,
             stock: product.stock,
             img: product.img
         };

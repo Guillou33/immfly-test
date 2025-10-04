@@ -1,4 +1,4 @@
-import { IProduct } from "@/constants/Store/Product";
+import { IProduct, Product } from "@/constants/Store/Product";
 import { RootState } from "@/Store/configStore";
 import { useRouter } from "expo-router";
 import { ScrollView, StyleSheet, View } from "react-native";
@@ -6,12 +6,12 @@ import { connect } from "react-redux";
 import ProductItem from "./ProductItem";
 
 interface ProductsListProps {
-  products: Array<IProduct>;
+  products: Product;
 }
 
 const _ProductsList = (props: ProductsListProps) => {
+  const {products} = props;
   const router = useRouter();
-  const products = props.products;
   console.log("Rendering Products List with sodas");
   // console.log("Rendering Products List with sodas:",Object.values(props.products));
 
@@ -22,7 +22,7 @@ const _ProductsList = (props: ProductsListProps) => {
   return (
     <ScrollView style={styles.list}>
       <View style={styles.container}>
-        {Object.values(props.products).map((product: IProduct) => (
+        {Object.values(products).map((product: IProduct) => (
           <ProductItem key={product.id} product={product} />
         ))}
       </View>
@@ -33,8 +33,10 @@ const _ProductsList = (props: ProductsListProps) => {
 const mapStateToProps = (state: RootState) => ({
   products: state.product.products,
 });
+const mapActionsToProps = (dispatch: any) => ({
+});
 
-const ProductsList = connect(mapStateToProps, null)(_ProductsList);
+const ProductsList = connect(mapStateToProps, mapActionsToProps)(_ProductsList);
 
 const styles = StyleSheet.create({
   container: {

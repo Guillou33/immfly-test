@@ -1,13 +1,15 @@
+import { AppDispatch, RootState } from '@/Store/configStore';
 import { Picker } from '@react-native-picker/picker';
 import { useState } from "react";
+import { connect } from 'react-redux';
 
 interface CurrencyPickerProps {
   // Define any props if needed
 
 }
 
-const CurrencyPicker = (props: CurrencyPickerProps) => {
-  const [selectedCurrency, setSelectedCurrency] = useState();
+const _CurrencyPicker = (props: CurrencyPickerProps) => {
+  const [selectedCurrency, setSelectedCurrency] = useState("java");
   return(
     <Picker
       selectedValue={selectedCurrency}
@@ -19,5 +21,15 @@ const CurrencyPicker = (props: CurrencyPickerProps) => {
     </Picker>
   );
 };
+
+const mapStateToProps = (state: RootState) => ({
+  basket: state.basket,
+});
+
+const mapActionsToProps = (dispatch: AppDispatch) => ({
+});
+
+
+const CurrencyPicker = connect(mapStateToProps, mapActionsToProps)(_CurrencyPicker);
 
 export default CurrencyPicker;

@@ -1,7 +1,7 @@
-import { Dispatch } from '@reduxjs/toolkit';
-import { ActionTypes } from './types';
-import { CurrencyPrice } from '@/constants/Util';
 import { IProduct } from '@/constants/Store/Product';
+import { CurrencyPrice } from '@/constants/Util';
+import { AppDispatch } from '../configStore';
+import { ActionTypes } from './types';
 
 export interface ProductInBasket {
     // Define the structure of the payload here
@@ -9,10 +9,10 @@ export interface ProductInBasket {
     quantity: number;
     price: CurrencyPrice;
 }
-// export const updateBasket = async (dispatch: Dispatch) => (productInBasket: ProductInBasket) => {
+// export const updateBasket = async (dispatch: Dispatch) => (product: IProduct) => {
 //         try{
 //             dispatch({type: ActionTypes.UPDATE_BASKET, payload: {
-//                 ...productInBasket
+//                 ...product
 //             }});
 //         }catch(e: any){
 //             console.error("Error update basket")
@@ -20,22 +20,17 @@ export interface ProductInBasket {
 
 // };
 
-export const updateBasket = (productInBasket: IProduct, quantity: number) => {
-    return async (dispatch: Dispatch) => {
-        try{
-            dispatch({type: ActionTypes.UPDATE_BASKET, payload: {
-                 productId: productInBasket.id,
-                  quantity: quantity,
-                  price: productInBasket.price
-            }});
-        }catch(e: any){
-            console.error("Error update basket")
-        }
-    }
+export const _updateBasket = async (dispatch: AppDispatch, {product, quantity}: {product: IProduct, quantity: number}) => {
+    console.log("Action: updateBasket", product.id, quantity);
+    await dispatch({type: ActionTypes.UPDATE_BASKET, payload: {
+              productId: product.id,
+              quantity: quantity,
+              price: product.price
+        }});
 };
 
 export const clearBasket = () => {
-    return async (dispatch: Dispatch) => {
+    return async (dispatch: AppDispatch) => {
         try{
             dispatch({type: ActionTypes.CLEAR_BASKET});
         }catch(e: any){
@@ -43,3 +38,6 @@ export const clearBasket = () => {
         }
     }
 }
+
+
+export const updateBasket = (payload:{product: IProduct, quantity: number}) => (dispatch: AppDispatch) => _updateBasket(dispatch, payload);

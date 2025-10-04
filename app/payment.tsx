@@ -1,6 +1,6 @@
-import { Button, StyleSheet } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-import { Text, View } from '@/components/Themed';
+import Order from '@/components/basket/payment/Order';
 import { useRouter } from 'expo-router';
 
 export default function Payment() {
@@ -12,21 +12,14 @@ export default function Payment() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Payment</Text>
-      <Button
-        onPress={onPressBack}
-        title="Back to Sodas"
-        accessibilityLabel="Go back to sodas screen"
-        // style={styles.button}
-      />
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)"/>
-      {/* <EditScreenInfo path="app/(tabs)/index.tsx" /> */}
+      <Order />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     alignItems: 'center',
     paddingVertical: 20,
     justifyContent: 'center',

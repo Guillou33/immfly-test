@@ -1,9 +1,9 @@
 
+import { Product } from "@/constants/Store/Product";
 import { formatProducts } from "@/lib/format/apiToStore";
 import { ActionTypes } from "../Action/types";
-import { Product } from "@/constants/Store/Product";
 
-const initialFirstProduct: Product = formatProducts([
+let initialFirstProducts: Product = formatProducts([
   {
     id: 1,
     name: "Coca-Cola",
@@ -93,21 +93,28 @@ const initialFirstProduct: Product = formatProducts([
     stock: 612
   }
 ]);
-// const initialSecondProduct: Product = {}
+initialFirstProducts = {}
 
-const INITIAL_STATE = {
-    products: initialFirstProduct
+interface ProductState {
+    products: Product;
+}
+
+const INITIAL_STATE: ProductState = {
+    products: initialFirstProducts
 };
 
 export default function productReducer(state = INITIAL_STATE, action: any) {
     let data;
     switch (action.type) {
         case ActionTypes.HYDRATE_PRODUCTS:
-            data = action.payload;
-            return {
-                ...state,
-                products: data
-            };
+          data = action.payload;
+          console.log("Reducer: Hydrate products", data);
+
+          // Create a proper immutable copy
+          return {
+              ...state,
+              products: data
+          };
         default:
             return state;
     }

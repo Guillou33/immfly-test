@@ -1,6 +1,5 @@
 import { IProduct, Product } from "@/constants/Store/Product";
 import { RootState } from "@/Store/configStore";
-import { useRouter } from "expo-router";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { connect } from "react-redux";
 import ProductItem from "./ProductItem";
@@ -11,13 +10,8 @@ interface ProductsListProps {
 
 const _ProductsList = (props: ProductsListProps) => {
   const {products} = props;
-  const router = useRouter();
   console.log("Rendering Products List with sodas");
   // console.log("Rendering Products List with sodas:",Object.values(props.products));
-
-  const onPressLearnMore = () => {
-    router.navigate("/payment");
-  }
 
   return (
     <ScrollView style={styles.list}>

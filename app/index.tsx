@@ -2,13 +2,13 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import BasketBar from '@/components/basket/BasketBar';
 import ProductsList from '@/components/product/ProductsList';
+import { Product } from '@/constants/Store/Product';
 import { hydrateProducts } from '@/Store/Action/ProductAction';
 import { AppDispatch, RootState } from '@/Store/configStore';
+import { useHydrateProducts } from 'hooks/useHydrateRoducts';
 import { useVisibleSnackbar } from 'hooks/useVisibleSnackbar';
 import React from 'react';
 import { connect } from 'react-redux';
-import { useHydrateProducts } from 'hooks/useHydrateRoducts';
-import { Product } from '@/constants/Store/Product';
 
 interface SodasScreenProps {
   products: Product;
@@ -28,7 +28,9 @@ function _SodasScreen(props: SodasScreenProps) {
     <View style={styles.container}>
       <Text style={styles.title}>Refrescos</Text>
       <ProductsList />
-      <BasketBar showSnackbar={visibleSnackbar} setSnackbarVisible={setVisibleSnackbar} />
+      <View style={styles.basketBar}>
+        <BasketBar showSnackbar={visibleSnackbar} setSnackbarVisible={setVisibleSnackbar} />
+      </View>
     </View>
   );
 }
@@ -60,6 +62,18 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     // height: 1,
     width: '80%',
+  },
+  basketBar: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    height: '30%',
+    paddingHorizontal: 10,
+    paddingBottom: 10,
+    // backgroundColor: '#f5f5f5',
+    justifyContent: 'center',
+    // borderTopWidth: 1,
+    // borderColor: '#ccc',
   },
 });
 

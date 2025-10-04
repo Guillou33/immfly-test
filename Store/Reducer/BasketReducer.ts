@@ -68,6 +68,16 @@ export default function productReducer(state = INITIAL_STATE, action: any) {
                   totalPrices: setNewTotalPrices(state.basket.totalPrices, data.quantity, data.price)
               }
           };
+          case ActionTypes.UPDATE_SELECTED_CURRENCY:
+            return {
+                ...state,
+                selectedCurrency: action.payload
+            };
+          case ActionTypes.CLEAR_BASKET:
+            return {
+                ...state,
+                basket: initialBasket
+            };
         default:
             return state;
     }

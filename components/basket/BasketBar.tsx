@@ -1,37 +1,50 @@
+import { IBasket } from "@/constants/Store/Basket";
+import { Currency, getTotal } from "@/lib/conversion";
+import { updateSelectedCurrency } from "@/Store/Action/BasketAction";
 import { AppDispatch, RootState } from "@/Store/configStore";
 import { useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Snackbar } from "react-native-paper";
-import { connect } from "react-redux";
+import { Button } from "react-native-paper";
+import { connect, useSelector } from "react-redux";
 import CurrencyPicker from "./CurrencyPicker";
 
 interface BasketBarProps {
   showSnackbar: boolean;
   setSnackbarVisible: (visible: boolean) => void;
-  basket: RootState["basket"]["basket"];
+  updateSelectedCurrency: (currency: string) => void;
+  basket: IBasket;
 }
 
 const _BasketBar = (props: BasketBarProps) => {
-  const { showSnackbar, setSnackbarVisible, basket } = props;
+  const { showSnackbar, setSnackbarVisible, updateSelectedCurrency, basket } = props;
   const router = useRouter();
+  const selectedCurrency = useSelector((state: RootState) => state.basket.selectedCurrency); // This should be managed via state or props
 
   return (
-      <Snackbar
-        visible={showSnackbar}
-        onDismiss={() => setSnackbarVisible(!showSnackbar)}
-        duration={Number.POSITIVE_INFINITY} // Reste affiché indéfiniment
-        action={{
-          label: 'Pay',
-          onPress: () => {
-            router.navigate("/payment");
-          },
-        }}>
-        <View style={styles.snackbarView}>
-          <Text>Total Items: {basket.productIds.reduce((total, id) => total + (basket.quantities[id]?.quantity || 0), 0)}</Text>
-          <CurrencyPicker />
+        <View style={styles.basketbarView}>
+          <Text>
+            Total Price :
+          </Text>
+          <CurrencyPicker
+            total={getTotal(basket.totalPrices) ?? 0}
+            selectedCurrency={selectedCurrency}
+            setSelectedCurrency={(currency: string) => {
+              let newCurrency = currency as Currency;
+              if (!Object.values(Currency).includes(newCurrency)) {
+                newCurrency = Currency.EUR; // Default to EUR if invalid
+              }
+              // Dispatch action to update selected currency in the store
+              // Assuming you have an action defined for this purpose
+              updateSelectedCurrency(newCurrency);
+            }}
+          />
+          <Button mode="contained" onPress={() => {
+            router.navigate('/payment');
+          }}>
+            View Basket
+          </Button>
         </View>
-      </Snackbar>
   );
 };
 
@@ -40,7 +53,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
   },
-  snackbarView: {
+  basketbarView: {
     flexDirection: "row",
     alignItems: "center",
     padding: 10,
@@ -63,6 +76,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapActionsToProps = (dispatch: AppDispatch) => ({
+  updateSelectedCurrency: (currency: Currency) => dispatch(updateSelectedCurrency(currency)),
 });
 
 

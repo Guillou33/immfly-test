@@ -1,13 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native';
 
 import Order from '@/components/basket/payment/Order';
-import { useRouter } from 'expo-router';
 
 export default function Payment() {
-  const router = useRouter();
-  const onPressBack = () => {
-    router.back();
-  }
 
   return (
     <View style={styles.container}>

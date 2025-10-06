@@ -74,6 +74,3 @@ Used to create custom function for UX, UI, calclating functions, etc. Allow us t
 ## Envs
 
 The environement variables is called inside the .env file.
-
-# Runs on :
-- Android

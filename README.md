@@ -39,12 +39,12 @@ You can start developing by editing the files inside the **app** directory. This
 
 # Technical :
 
+The code is written in **TypeScript** for type safety and better IntelliSense support.
+
 ## Api :
 
 ### Overview
 The `ApiClient` class provides a simple abstraction layer over the native **Fetch API**, allowing you to perform standard HTTP requests (`GET`, `POST`, `PUT`, `DELETE`) with built-in support for authentication tokens and JSON handling.
-
-This class is written in **TypeScript** for type safety and better IntelliSense support.
 
 ---
 
@@ -79,10 +79,58 @@ It can also provide data formatting with the `format` folder where data shared b
 The project contains one folder /Store for the state management of the variables. It includes :
 - a `configStore.ts` file initializing the store allowing to communicate data through components.
 - an `Action` folder containing the actions triggered while user interact with a functionnality.
+  <b>This is mostly there that we handle up-to-date and consistent data between the Api and the app.</b>
 - a `Reducer` folder managing the state of each object related to the App.
 
 ## Hooks :
-A `hooks` folder is created to allow developers to add custom hooks.
+A `hooks` folder is created to allow developers to add custom hooks. Example :
+
+```ts
+const useAnimatedBottomBar = (visible: number, animatedValue: Animated.Value) => {
+
+  React.useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: visible ? 0 : -100,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, [visible]);
+
+  return {
+    transform: [{ translateY: animatedValue }],
+  };
+}
+
+export default useAnimatedBottomBar;
+```
+
+The custom hook useAnimatedBottomBar manages the animation of a bottom bar in a React Native application.
+It uses React Native’s Animated API to smoothly show or hide the bar with a vertical translation animation.
+
 
 ## Lib :
-Used to create custom function for UX, UI, calclating functions, etc. Allow us to manipulate specific data.
+Used to create custom function for UX, UI, calclating functions, etc.
+This is useful for easier access, updates, and efficient specific data management in applications.
+Example :
+
+```ts
+export const formatProducts = (products: ApiProduct[]) => {
+    return products.reduce((acc, product) => {
+        acc[product.id] = {
+            id: product.id,
+            title: product.name,
+            price: {
+                [Currency.EUR]: product.price.euro,
+                [Currency.USD]: product.price.dollar,
+                [Currency.GBP]: product.price.pound
+            },
+            initialStock: product.stock,
+            stock: product.stock,
+            img: product.img
+        };
+        return acc;
+    }, {} as Product);
+}
+```
+
+The `formatProducts` function transforms an array of product objects (`ApiProduct[]`) into a normalized object keyed by product IDs.

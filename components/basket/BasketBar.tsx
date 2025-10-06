@@ -1,6 +1,7 @@
 import { IBasket } from "@/constants/Store/Basket";
 import { PriceType } from "@/constants/Store/Product";
-import { conversions, Currency, getTotal } from "@/lib/conversion";
+import { conversions, Currency } from "@/constants/Util";
+import {  getTotal } from "@/lib/conversion";
 import { updatePriceType, updateSelectedCurrency } from "@/Store/Action/BasketAction";
 import { AppDispatch, RootState } from "@/Store/configStore";
 import { useRouter } from "expo-router";

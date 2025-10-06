@@ -1,8 +1,7 @@
 
 import { IBasket } from "@/constants/Store/Basket";
 import { PriceType } from "@/constants/Store/Product";
-import { CurrencyPrice } from "@/constants/Util";
-import { Currency } from "@/lib/conversion";
+import { Currency, CurrencyPrice } from "@/constants/Util";
 import { ActionTypes } from "../Action/types";
 
 export interface BasketState {

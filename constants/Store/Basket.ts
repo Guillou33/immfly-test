@@ -1,4 +1,4 @@
-import { Currency } from "@/lib/conversion";
+import { Currency } from "../Util";
 import { Product } from "./Product";
 
 export enum IPaymentMethod {

@@ -4,11 +4,12 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import { BasketState } from '@/Store/Reducer/BasketReducer';
 import { AppDispatch, RootState } from '@/Store/configStore';
 import { IProduct } from '@/constants/Store/Product';
-import { conversions, getPriceType } from '@/lib/conversion';
+import { getPriceType } from '@/lib/conversion';
 import React from 'react';
 import { Button, Card } from 'react-native-paper';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { connect } from 'react-redux';
+import { conversions } from '@/constants/Util';
 
 interface ProductItemProps {
   product: IProduct;
@@ -23,9 +24,6 @@ const _ProductItem = (props: ProductItemProps) => {
   const basketInfo = basket.basket
   const selectedCurrency = basket.selectedCurrency; // This should be managed via state or props
   const selectedPriceType = basket.selectedPriceType; // This should be managed via state or props
-  // console.log("Rendering Product Item:", basket.quantities[product.id]);
-  // console.log("Rendering Product Item:", product);
-  // console.log("Rendering Product Item:", product.id, product.title);
 
   const [disableAdd, setDisableAdd] = React.useState(basketInfo.quantities[product.id] !== undefined ? basketInfo.quantities[product.id].quantity >= product.initialStock : false);
   const [disableLess, setDisableLess] = React.useState(basketInfo.quantities[product.id] === undefined ? true : basketInfo.quantities[product.id].quantity < 1 ? true : false);
@@ -72,8 +70,6 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapActionsToProps = (dispatch: AppDispatch) => ({
-  // updateBasket: (product: IProduct, quantity: number) => dispatch(updateBasket({product, quantity})),
-  // handleStock: (product: IProduct, quantity: number) => dispatch(handleStock(product, quantity)),
 });
 
 const ProductItem = connect(mapStateToProps, mapActionsToProps)(_ProductItem);
@@ -81,8 +77,6 @@ const ProductItem = connect(mapStateToProps, mapActionsToProps)(_ProductItem);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
     width: 150,
   },
   card: {

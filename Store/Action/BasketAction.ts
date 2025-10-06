@@ -1,7 +1,6 @@
 import { IPaymentMethod } from '@/constants/Store/Basket';
 import { IProduct, PriceType } from '@/constants/Store/Product';
-import { CurrencyPrice } from '@/constants/Util';
-import { Currency } from '@/lib/conversion';
+import { Currency, CurrencyPrice } from '@/constants/Util';
 import { AppDispatch } from '../configStore';
 import { ActionTypes } from './types';
 

@@ -1,5 +1,6 @@
 import { IBasket, IPaymentMethod } from "@/constants/Store/Basket";
-import { conversions, getTotal } from "@/lib/conversion";
+import { conversions } from "@/constants/Util";
+import { getTotal } from "@/lib/conversion";
 import { RootState } from "@/Store/configStore";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
@@ -22,11 +23,11 @@ const PaymentMethod = (props: PaymentMethodProps) => {
           Total Price : {getTotal(basket.totalPrices, selectedCurrency, selectedPriceType) ?? 0} {conversions[selectedCurrency].symbol}
         </Text>
       </View>
-      <View style={{flexDirection: "row", justifyContent: "space-between", width: "100%", marginTop: 10}}>
-        <TouchableOpacity style={styles.button} onPress={() => onSetPayment(IPaymentMethod.CARD)}>
-          <Text style={styles.buttonText}>Tarjeta</Text>
+      <View style={styles.selectPriceType}>
+        <TouchableOpacity style={[styles.button, {marginRight: 10}]} onPress={() => onSetPayment(IPaymentMethod.CARD)}>
+          <Text style={styles.buttonText}>Card</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => onSetPayment(IPaymentMethod.CASH)}>
+        <TouchableOpacity style={[styles.button, {marginLeft: 10}]} onPress={() => onSetPayment(IPaymentMethod.CASH)}>
           <Text style={styles.buttonText}>Efectivo</Text>
         </TouchableOpacity>
       </View>
@@ -50,16 +51,23 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 2,
   },
+  selectPriceType: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    marginTop: 10
+  },
   button: {
     backgroundColor: '#2196F3',
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 8,
-    width: '25%',
+    width: '40%',
   },
   buttonText: {
     color: 'white',
     fontSize: 16,
+    textAlign: 'center',
   }
 });
 

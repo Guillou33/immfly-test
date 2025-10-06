@@ -17,7 +17,6 @@ interface ProductsListProps {
 const _ProductsList = (props: ProductsListProps) => {
   const {products, updateBasket, handleStock} = props;
   console.log("Rendering Products List with sodas");
-  // console.log("Rendering Products List with sodas:",Object.values(props.products));
 
   return (
     <ScrollView style={styles.list}>

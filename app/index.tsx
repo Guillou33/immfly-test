@@ -34,7 +34,7 @@ function _SodasScreen(props: SodasScreenProps) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Refrescos</Text>
+      <Text style={styles.title}>Drinks</Text>
       <ProductsList />
       <Animated.View style={[styles.basketBar,
         { bottom: animatedStyle.transform[0].translateY }
@@ -70,16 +70,11 @@ const styles = StyleSheet.create({
   },
   separator: {
     marginVertical: 30,
-    // height: 1,
     width: '80%',
   },
   basketBar: {
-    // position: 'absolute',
-    // bottom: 0,
     width: '100%',
-    // height: '30%',
     paddingHorizontal: 10,
-    paddingBottom: 10,
     justifyContent: 'center',
   }
 });

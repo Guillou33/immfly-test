@@ -3,6 +3,7 @@ import { Animated, StyleSheet, Text, View } from 'react-native';
 import Method from '@/components/basket/payment/Method';
 import Order from '@/components/basket/payment/Order';
 import { IBasket, IPaymentMethod } from '@/constants/Store/Basket';
+import { Currency } from '@/constants/Util';
 import { clearBasket, setPaymentInfos } from '@/Store/Action/BasketAction';
 import { AppDispatch, RootState } from '@/Store/configStore';
 import useAnimatedBottomBar from 'hooks/useAnimatedBottomBar';
@@ -12,7 +13,7 @@ import { connect, useSelector } from 'react-redux';
 
 interface PaymentProps {
   basket: IBasket;
-  setPaymentInfos: (method: IPaymentMethod) => void;
+  setPaymentInfos: (method: IPaymentMethod, amount: number, selectedCurrency: Currency) => void;
   clearBasket: () => void;
 }
 
@@ -30,15 +31,15 @@ export function _Payment(props: PaymentProps) {
     // Here you can handle the payment method selection logic
     // For example, you might want to update the Redux store or navigate to another screen
     // After handling payment, you might want to clear the basket
-    setPaymentInfos(method as IPaymentMethod);
+    const amount = basket.basket.totalPrices[basket.selectedCurrency as Currency] as number;
+    setPaymentInfos(method as IPaymentMethod, amount, basket.selectedCurrency as Currency);
     clearBasket();
   }
 
   return (
     <View style={styles.container}>
-        <Text style={styles.title}>Payment</Text>
-        {basket.paymentInfos !== "" && <Text>Sodas ordered - {basket.paymentInfos}</Text>}
         <Order />
+        {basket.paymentInfos !== "" && <Text>Sodas ordered - {basket.paymentInfos}</Text>}
         <Animated.View style={[styles.paymentMethod, animatedStyle]}>
           <Method basket={basket.basket} onSetPayment={setPayment} />
         </Animated.View>
@@ -51,7 +52,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapActionsToProps = (dispatch: AppDispatch) => ({
-  setPaymentInfos: (method: IPaymentMethod) => dispatch(setPaymentInfos(method)),
+  setPaymentInfos: (method: IPaymentMethod, amount: number, selectedCurrency: Currency) => dispatch(setPaymentInfos(method, amount, selectedCurrency)),
   clearBasket: () => dispatch(clearBasket()),
 });
 

@@ -1,6 +1,6 @@
 import { Product } from "@/constants/Store/Product";
 import { RootState } from "@/Store/configStore";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { List } from "react-native-paper";
 import { useSelector } from "react-redux";
 
@@ -16,7 +16,8 @@ const Order = (props: OrderProps) => {
   const list = products;
 
   return (
-      <List.Section style={styles.container}>
+    <View style={styles.container}>
+      <List.Section>
         <Text>Your order :</Text>
         {basket.quantities !== undefined && Object.values(basket.quantities).map((item) => (
           <List.Item
@@ -28,6 +29,7 @@ const Order = (props: OrderProps) => {
           />
         ))}
       </List.Section>
+    </View>
   );
 };
 

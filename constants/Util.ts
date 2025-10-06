@@ -1,4 +1,4 @@
-import { IProduct, PriceType } from "./Store/Product";
+import { PriceType } from "./Store/Product";
 
 export type CurrencyPrice = {
     [Currency.USD]: number;
@@ -27,7 +27,9 @@ export enum Currency {
 export interface IConversion {
   [key: string]: {
     symbol: string; // Currency symbol
-    [key: string]: number | string; // Conversion rates to other currencies
+    rates: {
+      [key: string]: number; // Conversion rates to other currencies
+    }
   };
 }
 
@@ -35,18 +37,27 @@ export const conversions: IConversion = {
   // Currency conversion rates
   [Currency.USD]: {
     symbol: '$',
-    EUR: 0.85,
-    GBP: 0.75,
+    rates: {
+      [Currency.USD]: 1.0,
+      [Currency.EUR]: 0.85,
+      [Currency.GBP]: 0.75
+    }
   },
   [Currency.EUR]: {
     symbol: '€',
-    USD: 1.18,
-    GBP: 0.88,
+    rates : {
+      [Currency.EUR]: 1.0,
+      [Currency.USD]: 1.18,
+      [Currency.GBP]: 0.88,
+    }
   },
   [Currency.GBP]: {
     symbol: '£',
-    USD: 1.33,
-    EUR: 1.14,
+    rates: {
+      [Currency.GBP]: 1.0,
+      [Currency.USD]: 1.33,
+      [Currency.EUR]: 1.14,
+    }
   },
 };
 

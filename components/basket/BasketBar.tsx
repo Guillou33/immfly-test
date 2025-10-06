@@ -1,7 +1,7 @@
 import { IBasket } from "@/constants/Store/Basket";
 import { PriceType } from "@/constants/Store/Product";
 import { conversions, Currency } from "@/constants/Util";
-import {  getTotal } from "@/lib/conversion";
+import { getTotal } from "@/lib/conversion";
 import { updatePriceType, updateSelectedCurrency } from "@/Store/Action/BasketAction";
 import { AppDispatch, RootState } from "@/Store/configStore";
 import { useRouter } from "expo-router";
@@ -12,6 +12,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import { PaperSelect } from 'react-native-paper-select';
 import { connect, useSelector } from "react-redux";
+import ConvertedPrices from "./ConvertedPrices";
 
 interface BasketBarProps {
   showSnackbar: boolean;
@@ -30,11 +31,14 @@ const _BasketBar = (props: BasketBarProps) => {
   const currencies = useCurrencyList();
   const priceTypes = usePriceTypeList();
 
+  const totalAmount = getTotal(basket.totalPrices, selectedCurrency, selectedPriceType) ?? 0;
+
   return (
         <View style={styles.basketbarView}>
           <View style={{marginBottom: 10}}>
-            <Text>
-              Total price: {getTotal(basket.totalPrices, selectedCurrency, selectedPriceType).toString() ?? 0} {conversions[selectedCurrency].symbol}
+            <Text style={{fontSize: 16, fontWeight: 'bold', flexDirection: 'row', alignItems: 'center'}}>
+              Total price: {totalAmount.toString()} {conversions[selectedCurrency].symbol}
+              <ConvertedPrices amount={totalAmount} selectedCurrency={selectedCurrency} />
             </Text>
           </View>
           <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%'}}>

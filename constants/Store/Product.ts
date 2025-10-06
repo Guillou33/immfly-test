@@ -1,5 +1,13 @@
 import { CurrencyPrice } from "../Util";
 
+export enum PriceType {
+    RET = 'Retail',
+    CRW = 'Crew',
+    HHO = 'Happy hour',
+    BSN = 'Invitation business',
+    TOU = 'Invitation tourist',
+}
+
 export interface IProduct {
     id: number;
     title: string;

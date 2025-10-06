@@ -52,10 +52,10 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts",
     "metro.config.js",
-    "babel.config.js"
+    "babel.config.js",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
   ],
   "exclude": [
     "node_modules"

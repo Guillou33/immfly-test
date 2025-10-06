@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Animated, StyleSheet, Text, View } from 'react-native';
 
 import BasketBar from '@/components/basket/BasketBar';
 import ProductsList from '@/components/product/ProductsList';
 import { Product } from '@/constants/Store/Product';
 import { hydrateProducts } from '@/Store/Action/ProductAction';
 import { AppDispatch, RootState } from '@/Store/configStore';
+import useAnimatedBottomBar from 'hooks/useAnimatedBottomBar';
 import { useHydrateProducts } from 'hooks/useHydrateRoducts';
 import { useVisibleSnackbar } from 'hooks/useVisibleSnackbar';
 import React from 'react';
@@ -20,17 +21,26 @@ function _SodasScreen(props: SodasScreenProps) {
   const {products, basket, hydrateProducts} = props;
   const {visibleSnackbar, setVisibleSnackbar} = useVisibleSnackbar(basket);
 
+  // Initial hydration of products :
+  // - Use it only once when the component is mounted
+  // - Use the products from the store to avoid re-fetching if already done
+  // - Use the hydrateProducts action to fetch and store products if not already done
   useHydrateProducts(products, hydrateProducts);
 
   console.log("Rendering Sodas Screen with sodas:", Object.values(products));
+
+  const animatedValue = React.useRef(new Animated.Value(visibleSnackbar ? 0 : 100)).current;
+  const animatedStyle = useAnimatedBottomBar(visibleSnackbar ? 1 : 0, animatedValue);
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Refrescos</Text>
       <ProductsList />
-      <View style={styles.basketBar}>
+      <Animated.View style={[styles.basketBar,
+        { bottom: animatedStyle.transform[0].translateY }
+        ]}>
         <BasketBar showSnackbar={visibleSnackbar} setSnackbarVisible={setVisibleSnackbar} />
-      </View>
+      </Animated.View>
     </View>
   );
 }
@@ -64,17 +74,14 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   basketBar: {
-    position: 'absolute',
-    bottom: 0,
+    // position: 'absolute',
+    // bottom: 0,
     width: '100%',
-    height: '30%',
+    // height: '30%',
     paddingHorizontal: 10,
     paddingBottom: 10,
-    // backgroundColor: '#f5f5f5',
     justifyContent: 'center',
-    // borderTopWidth: 1,
-    // borderColor: '#ccc',
-  },
+  }
 });
 
 export default SodasScreen;

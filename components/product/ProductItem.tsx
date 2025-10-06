@@ -1,12 +1,10 @@
 
 import { Image, StyleSheet, Text, View } from 'react-native';
 
-import { updateBasket } from '@/Store/Action/BasketAction';
-import { handleStock } from '@/Store/Action/ProductAction';
+import { BasketState } from '@/Store/Reducer/BasketReducer';
 import { AppDispatch, RootState } from '@/Store/configStore';
-import { IBasket } from '@/constants/Store/Basket';
 import { IProduct } from '@/constants/Store/Product';
-import { Currency } from '@/lib/conversion';
+import { conversions } from '@/lib/conversion';
 import React from 'react';
 import { Button, Card } from 'react-native-paper';
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -14,27 +12,30 @@ import { connect } from 'react-redux';
 
 interface ProductItemProps {
   product: IProduct;
-  basket: IBasket;
-  updateBasket: (product: IProduct, quantity: number) => void;
-  handleStock: (product: IProduct, quantity: number) => void;
+  basket: BasketState;
+  onUpdateBasket: (product: IProduct, quantity: number) => void;
+  onHandleStock: (product: IProduct, quantity: number) => void;
 }
 
 const _ProductItem = (props: ProductItemProps) => {
-  const {product, basket, updateBasket, handleStock} = props;
+  const {product, basket, onUpdateBasket, onHandleStock} = props;
+
+  const basketInfo = basket.basket
+  const selectedCurrency = basket.selectedCurrency; // This should be managed via state or props
   // console.log("Rendering Product Item:", basket.quantities[product.id]);
   // console.log("Rendering Product Item:", product);
   // console.log("Rendering Product Item:", product.id, product.title);
 
-  const [disableAdd, setDisableAdd] = React.useState(basket.quantities[product.id] !== undefined ? basket.quantities[product.id].quantity >= product.initialStock : false);
-  const [disableLess, setDisableLess] = React.useState(basket.quantities[product.id] === undefined ? true : basket.quantities[product.id].quantity < 1 ? true : false);
+  const [disableAdd, setDisableAdd] = React.useState(basketInfo.quantities[product.id] !== undefined ? basketInfo.quantities[product.id].quantity >= product.initialStock : false);
+  const [disableLess, setDisableLess] = React.useState(basketInfo.quantities[product.id] === undefined ? true : basketInfo.quantities[product.id].quantity < 1 ? true : false);
 
-  const onUpdateBasket = (product: IProduct, quantity: number) => {
-    updateBasket(product, quantity);
-    handleStock(product, quantity*-1);
-    setDisableAdd(basket.quantities[product.id] ? basket.quantities[product.id].quantity + quantity >= product.initialStock : false);
-    setDisableLess(basket.quantities[product.id] ? basket.quantities[product.id].quantity + quantity < 1 : false);
+  const onUpdateOrder = (product: IProduct, quantity: number) => {
+    onUpdateBasket(product, quantity);
+    onHandleStock(product, quantity*-1);
+    setDisableAdd(basketInfo.quantities[product.id] ? basketInfo.quantities[product.id].quantity + quantity >= product.initialStock : false);
+    setDisableLess(basketInfo.quantities[product.id] ? basketInfo.quantities[product.id].quantity + quantity < 1 : false);
   }
-  console.log("Rendering Product Item:", disableAdd, disableLess);
+  console.log("Rendering Currency:", conversions[selectedCurrency], product.price[selectedCurrency]);
 
   return (
       <SafeAreaProvider style={styles.container}>
@@ -47,13 +48,16 @@ const _ProductItem = (props: ProductItemProps) => {
                   uri: product.img,
                 }}
             />
-            <Text>Price : </Text><Text>{product.price[Currency.EUR]} €</Text>
-            <Text>Stock : {basket.quantities[product.id]!== undefined ? product.stock - basket.quantities[product.id].quantity : product.stock}</Text>
-            <View style={{ flexDirection: "row", justifyContent: "space-around", margin: 10 }}>
-              <Button style={styles.button} disabled={disableAdd} mode="contained" onPress={() => onUpdateBasket(product, 1)}>
+            <Text>
+              Price : {product.price[selectedCurrency].toFixed(2)} {conversions[selectedCurrency].symbol}
+              {/* {conversions[selectedCurrency].symbol} */}
+            </Text>
+            <Text>Stock : {product.stock}</Text>
+            <View style={styles.btnView}>
+              <Button style={styles.button_1} disabled={disableAdd} mode="contained" onPress={() => onUpdateOrder(product, 1)}>
                 +
               </Button>
-              <Button mode="outlined" disabled={disableLess} onPress={() => onUpdateBasket(product, -1)}>
+              <Button style={styles.button_2} mode="outlined" disabled={disableLess} onPress={() => onUpdateOrder(product, -1)}>
                 -
               </Button>
             </View>
@@ -64,12 +68,12 @@ const _ProductItem = (props: ProductItemProps) => {
 };
 
 const mapStateToProps = (state: RootState) => ({
-  basket: state.basket.basket,
+  basket: state.basket,
 });
 
 const mapActionsToProps = (dispatch: AppDispatch) => ({
-  updateBasket: (product: IProduct, quantity: number) => dispatch(updateBasket({product, quantity})),
-  handleStock: (product: IProduct, quantity: number) => dispatch(handleStock(product, quantity)),
+  // updateBasket: (product: IProduct, quantity: number) => dispatch(updateBasket({product, quantity})),
+  // handleStock: (product: IProduct, quantity: number) => dispatch(handleStock(product, quantity)),
 });
 
 const ProductItem = connect(mapStateToProps, mapActionsToProps)(_ProductItem);
@@ -77,12 +81,14 @@ const ProductItem = connect(mapStateToProps, mapActionsToProps)(_ProductItem);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    width: 150,
   },
   card: {
-    width: '50%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     marginBottom: 10,
     padding: 10,
     backgroundColor: '#fff',
@@ -98,14 +104,31 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
   },
-  button: {
-    marginRight: 10,
+  btnView: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
+    paddingRight: 10
+  },
+  button_1: {
+    marginRight: 5,
+    borderColor: 'white',
     backgroundColor: '#841584',
     color: 'white',
-    width: 20,
-    height: 40,
     alignItems: 'center',
     justifyContent: 'center',
+    fontSize: 20,
+    width: 50,
+  },
+  button_2: {
+    marginLeft: 5,
+    borderColor: '#841584',
+    backgroundColor: 'white',
+    color: '#841584',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: 20,
+    width: "50%",
   },
 });
 

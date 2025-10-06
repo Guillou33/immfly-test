@@ -1,8 +1,16 @@
 
 import { IBasket } from "@/constants/Store/Basket";
+import { PriceType } from "@/constants/Store/Product";
 import { CurrencyPrice } from "@/constants/Util";
 import { Currency } from "@/lib/conversion";
 import { ActionTypes } from "../Action/types";
+
+export interface BasketState {
+    basket: IBasket;
+    selectedCurrency: Currency;
+    selectedPriceType: PriceType;
+    paymentInfos: string;
+}
 
 const initialBasket: IBasket = {
   productIds: [],
@@ -11,12 +19,14 @@ const initialBasket: IBasket = {
     [Currency.EUR]: 0,
     [Currency.USD]: 0,
     [Currency.GBP]: 0
-  }
+  },
 }
 
-const INITIAL_STATE = {
+const INITIAL_STATE: BasketState = {
     basket: initialBasket,
-    selectedCurrency: Currency.EUR
+    selectedCurrency: Currency.EUR,
+    selectedPriceType: PriceType.RET,
+    paymentInfos: ""
 }
 
 export default function productReducer(state = INITIAL_STATE, action: any) {
@@ -68,10 +78,20 @@ export default function productReducer(state = INITIAL_STATE, action: any) {
                   totalPrices: setNewTotalPrices(state.basket.totalPrices, data.quantity, data.price)
               }
           };
+          case ActionTypes.SET_PAYMENT_INFOS:
+            return {
+                ...state,
+                paymentInfos: `Payment with ${action.payload.method}`
+            };
           case ActionTypes.UPDATE_SELECTED_CURRENCY:
             return {
                 ...state,
                 selectedCurrency: action.payload
+            };
+          case ActionTypes.UPDATE_SELECTED_PRICE_TYPE:
+            return {
+                ...state,
+                selectedPriceType: action.payload
             };
           case ActionTypes.CLEAR_BASKET:
             return {

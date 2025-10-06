@@ -1,51 +1,61 @@
+import { IBasket, IPaymentMethod } from "@/constants/Store/Basket";
+import { conversions, getTotal } from "@/lib/conversion";
+import { RootState } from "@/Store/configStore";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useSelector } from "react-redux";
 
-const PaymentMethod = () => {
+interface PaymentMethodProps {
+  // Define any props if needed
+  basket: IBasket;
+  onSetPayment: (method: IPaymentMethod) => void;
+}
+
+const PaymentMethod = (props: PaymentMethodProps) => {
+  const { basket, onSetPayment } = props;
+  const selectedCurrency = useSelector((state: RootState) => state.basket.selectedCurrency);
+  const selectedPriceType = useSelector((state: RootState) => state.basket.selectedPriceType);
+
   return (
-    <View style={styles.overlay}>
-        <Text style={styles.overlayText}>Je suis au premier plan!</Text>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Action</Text>
+    <View style={styles.container}>
+      <View style={{alignItems: "center"}}>
+        <Text>
+          Total Price : {getTotal(basket.totalPrices, selectedCurrency, selectedPriceType) ?? 0} {conversions[selectedCurrency].symbol}
+        </Text>
+      </View>
+      <View style={{flexDirection: "row", justifyContent: "space-between", width: "100%", marginTop: 10}}>
+        <TouchableOpacity style={styles.button} onPress={() => onSetPayment(IPaymentMethod.CARD)}>
+          <Text style={styles.buttonText}>Tarjeta</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => onSetPayment(IPaymentMethod.CASH)}>
+          <Text style={styles.buttonText}>Efectivo</Text>
+        </TouchableOpacity>
+      </View>
       </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-  },
-  mainContent: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 1000,
-  },
-  overlayContent: {
-    backgroundColor: 'white',
-    padding: 30,
-    borderRadius: 15,
-    alignItems: 'center',
-  },
-  overlayText: {
-    fontSize: 18,
-    marginBottom: 20,
+    flexDirection: "column",
+    alignItems: "center",
+    padding: 10,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    justifyContent: "space-between",
+    borderColor: "#ccc",
+    borderWidth: 1,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
   button: {
     backgroundColor: '#2196F3',
-    paddingHorizontal: 30,
-    paddingVertical: 12,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
     borderRadius: 8,
+    width: '25%',
   },
   buttonText: {
     color: 'white',

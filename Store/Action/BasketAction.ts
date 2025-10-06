@@ -1,4 +1,5 @@
-import { IProduct } from '@/constants/Store/Product';
+import { IPaymentMethod } from '@/constants/Store/Basket';
+import { IProduct, PriceType } from '@/constants/Store/Product';
 import { CurrencyPrice } from '@/constants/Util';
 import { Currency } from '@/lib/conversion';
 import { AppDispatch } from '../configStore';
@@ -32,7 +33,15 @@ export const clearBasket = () => {
 export const _setSelectedCurrency = async (dispatch: AppDispatch, currency: Currency) => {
     await dispatch({type: ActionTypes.UPDATE_SELECTED_CURRENCY, payload: currency});
 }
+export const _updatePriceType = async (dispatch: AppDispatch, priceType: PriceType) => {
+    await dispatch({type: ActionTypes.UPDATE_SELECTED_PRICE_TYPE, payload: priceType});
+}
+export const _setPaymentInfos = async (dispatch: AppDispatch, method: IPaymentMethod) => {
+  await dispatch({type: ActionTypes.SET_PAYMENT_INFOS, payload: {method}});
 
+}
 
+export const setPaymentInfos = (method: IPaymentMethod) => (dispatch: AppDispatch) => _setPaymentInfos(dispatch, method);
 export const updateBasket = (payload:{product: IProduct, quantity: number}) => (dispatch: AppDispatch) => _updateBasket(dispatch, payload);
 export const updateSelectedCurrency = (currency: Currency) => (dispatch: AppDispatch) => _setSelectedCurrency(dispatch, currency);
+export const updatePriceType = (priceType: PriceType) => (dispatch: AppDispatch) => _updatePriceType(dispatch, priceType);

@@ -39,11 +39,11 @@ export function _Payment(props: PaymentProps) {
       <Text style={styles.title}>Payment</Text>
       {basket.paymentInfos !== "" && <Text>Sodas ordered - {basket.paymentInfos}</Text>}
       <Order />
-        <Animated.View style={[styles.paymentMethod,
-          { bottom: animatedStyle.transform[0].translateY }
-          ]}>
-          <Method basket={basket.basket} onSetPayment={setPayment} />
-        </Animated.View>
+      <Animated.View style={[styles.paymentMethod,
+        { bottom: animatedStyle.transform[0].translateY }
+        ]}>
+        <Method basket={basket.basket} onSetPayment={setPayment} />
+      </Animated.View>
     </View>
   );
 }

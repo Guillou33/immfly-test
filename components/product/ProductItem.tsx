@@ -4,7 +4,7 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import { BasketState } from '@/Store/Reducer/BasketReducer';
 import { AppDispatch, RootState } from '@/Store/configStore';
 import { IProduct } from '@/constants/Store/Product';
-import { conversions } from '@/lib/conversion';
+import { conversions, getPriceType } from '@/lib/conversion';
 import React from 'react';
 import { Button, Card } from 'react-native-paper';
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -22,6 +22,7 @@ const _ProductItem = (props: ProductItemProps) => {
 
   const basketInfo = basket.basket
   const selectedCurrency = basket.selectedCurrency; // This should be managed via state or props
+  const selectedPriceType = basket.selectedPriceType; // This should be managed via state or props
   // console.log("Rendering Product Item:", basket.quantities[product.id]);
   // console.log("Rendering Product Item:", product);
   // console.log("Rendering Product Item:", product.id, product.title);
@@ -49,8 +50,7 @@ const _ProductItem = (props: ProductItemProps) => {
                 }}
             />
             <Text>
-              Price : {product.price[selectedCurrency].toFixed(2)} {conversions[selectedCurrency].symbol}
-              {/* {conversions[selectedCurrency].symbol} */}
+              Price : {getPriceType(product.price[selectedCurrency], selectedPriceType).toFixed(2)} {conversions[selectedCurrency].symbol}
             </Text>
             <Text>Stock : {product.stock}</Text>
             <View style={styles.btnView}>

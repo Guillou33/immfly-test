@@ -7,7 +7,8 @@ import { useRouter } from "expo-router";
 import { useCurrencyList } from "hooks/useCurrencyList";
 import { usePriceTypeList } from "hooks/usePriceTypeList";
 import React from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { Button } from "react-native-paper";
 import { PaperSelect } from 'react-native-paper-select';
 import { connect, useSelector } from "react-redux";
 
@@ -36,9 +37,9 @@ const _BasketBar = (props: BasketBarProps) => {
             </Text>
           </View>
           <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%'}}>
-            <View style={{width: '35%'}}>
+            <View style={{width: '20%'}}>
               <PaperSelect
-                label={""}
+                label={conversions[selectedCurrency].symbol}
                 value={currencies.currency.value}
                 onSelection={(value: any) => {
                   currencies.setCurrency({
@@ -65,9 +66,9 @@ const _BasketBar = (props: BasketBarProps) => {
                 }}
               />
             </View>
-            <View style={{width: '35%'}}>
+            <View style={{marginLeft: 10, width: '50%'}}>
               <PaperSelect
-                label={""}
+                label={selectedPriceType}
                 value={priceTypes.priceType.value}
                 onSelection={(value: any) => {
                   priceTypes.setPriceType({
@@ -82,7 +83,6 @@ const _BasketBar = (props: BasketBarProps) => {
                 selectedArrayList={[...priceTypes.priceType.selectedList]}
                 errorText={priceTypes.priceType.error}
                 hideSearchBox={true}
-
                 textInputMode="outlined"
                 multiEnable={false}
                 selectAllEnable={false}
@@ -94,13 +94,13 @@ const _BasketBar = (props: BasketBarProps) => {
                 }}
               />
             </View>
-            <View style={{width: '25%'}}>
+            <View style={{width: '20%', marginLeft: 10}}>
 
-              {/* <Button mode="contained" onPress={() => {
+              <Button mode="contained" onPress={() => {
                 router.navigate('/payment');
               }}>
-                View Basket
-              </Button> */}
+                Go
+              </Button>
             </View>
           </View>
         </View>

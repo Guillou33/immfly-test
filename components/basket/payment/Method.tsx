@@ -18,7 +18,7 @@ const PaymentMethod = (props: PaymentMethodProps) => {
   return (
     <View style={styles.container}>
       <View style={{alignItems: "center"}}>
-        <Text>
+        <Text style={{fontWeight: "bold", fontSize: 24, marginBottom: 10}}>
           Total Price : {getTotal(basket.totalPrices, selectedCurrency, selectedPriceType) ?? 0} {conversions[selectedCurrency].symbol}
         </Text>
       </View>
@@ -30,7 +30,7 @@ const PaymentMethod = (props: PaymentMethodProps) => {
           <Text style={styles.buttonText}>Efectivo</Text>
         </TouchableOpacity>
       </View>
-      </View>
+    </View>
   );
 };
 

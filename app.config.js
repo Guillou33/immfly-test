@@ -5,7 +5,7 @@ export default {
     version: "1.0.0",
     orientation: "portrait",
     icon: "./assets/images/icon.png",
-    scheme: "immflytest",
+    scheme: "com.gilles33.immflytest",
     userInterfaceStyle: "automatic",
     newArchEnabled: true,
     ios: {

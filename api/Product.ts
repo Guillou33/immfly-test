@@ -7,7 +7,6 @@ export const fetchProducts = async () => {
 
   try {
     const api = new ApiClient(Constants.expoConfig?.extra?.apiUrl);
-    console.log("API URL:", api.getBaseURL());
 
     const data = await api.get<ApiProduct[]>('/products');
 

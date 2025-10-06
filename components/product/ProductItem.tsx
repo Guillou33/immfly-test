@@ -4,12 +4,12 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import { BasketState } from '@/Store/Reducer/BasketReducer';
 import { AppDispatch, RootState } from '@/Store/configStore';
 import { IProduct } from '@/constants/Store/Product';
+import { conversions } from '@/constants/Util';
 import { getPriceType } from '@/lib/conversion';
 import React from 'react';
 import { Button, Card } from 'react-native-paper';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { connect } from 'react-redux';
-import { conversions } from '@/constants/Util';
 
 interface ProductItemProps {
   product: IProduct;
@@ -34,7 +34,6 @@ const _ProductItem = (props: ProductItemProps) => {
     setDisableAdd(basketInfo.quantities[product.id] ? basketInfo.quantities[product.id].quantity + quantity >= product.initialStock : false);
     setDisableLess(basketInfo.quantities[product.id] ? basketInfo.quantities[product.id].quantity + quantity < 1 : false);
   }
-  console.log("Rendering Currency:", conversions[selectedCurrency], product.price[selectedCurrency]);
 
   return (
       <SafeAreaProvider style={styles.container}>

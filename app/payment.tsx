@@ -26,7 +26,7 @@ export function _Payment(props: PaymentProps) {
   const animatedStyle = useAnimatedBottomBar(visibleSnackbar ? 1 : 0, animatedValue);
 
   const setPayment = (method: IPaymentMethod) => {
-    console.log("Payment method selected:", method);
+    console.log("Payment method selected:");
     // Here you can handle the payment method selection logic
     // For example, you might want to update the Redux store or navigate to another screen
     // After handling payment, you might want to clear the basket
@@ -36,14 +36,12 @@ export function _Payment(props: PaymentProps) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Payment</Text>
-      {basket.paymentInfos !== "" && <Text>Sodas ordered - {basket.paymentInfos}</Text>}
-      <Order />
-      <Animated.View style={[styles.paymentMethod,
-        { bottom: animatedStyle.transform[0].translateY }
-        ]}>
-        <Method basket={basket.basket} onSetPayment={setPayment} />
-      </Animated.View>
+        <Text style={styles.title}>Payment</Text>
+        {basket.paymentInfos !== "" && <Text>Sodas ordered - {basket.paymentInfos}</Text>}
+        <Order />
+        <Animated.View style={[styles.paymentMethod, animatedStyle]}>
+          <Method basket={basket.basket} onSetPayment={setPayment} />
+        </Animated.View>
     </View>
   );
 }

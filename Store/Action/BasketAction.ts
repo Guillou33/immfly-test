@@ -11,7 +11,6 @@ export interface ProductInBasket {
 }
 
 export const _updateBasket = async (dispatch: AppDispatch, {product, quantity}: {product: IProduct, quantity: number}) => {
-    console.log("Action: updateBasket", product.id, quantity);
     await dispatch({type: ActionTypes.UPDATE_BASKET, payload: {
               productId: product.id,
               quantity: quantity,

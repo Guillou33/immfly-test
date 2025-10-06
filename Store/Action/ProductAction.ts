@@ -8,7 +8,6 @@ export const _hydrateProducts = async (dispatch: AppDispatch) => {
       try{
         const productsfromApi = await fetchProducts();
         if(productsfromApi && productsfromApi.length > 0){
-          // console.log("Disptach fetched products:", productsfromApi);
           await dispatch({type: ActionTypes.HYDRATE_PRODUCTS, payload: formatProducts(productsfromApi)});
         }
       }catch(e: any){
@@ -17,7 +16,6 @@ export const _hydrateProducts = async (dispatch: AppDispatch) => {
 };
 
 export const _handleStock = async (dispatch: AppDispatch, {product, quantity}: {product: IProduct, quantity: number}) => {
-    console.log("Action: handleStock", product.id, quantity);
     await dispatch({type: ActionTypes.HANDLE_STOCK, payload: {
               productId: product.id,
               quantity: quantity

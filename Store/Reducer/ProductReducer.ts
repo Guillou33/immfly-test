@@ -19,7 +19,6 @@ export default function productReducer(state = INITIAL_STATE, action: any) {
     switch (action.type) {
         case ActionTypes.HYDRATE_PRODUCTS:
           data = action.payload;
-          console.log("Reducer: Hydrate products", data);
 
           // Create a proper immutable copy
           return {

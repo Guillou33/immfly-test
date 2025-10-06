@@ -5,7 +5,7 @@ const useAnimatedBottomBar = (visible: number, animatedValue: Animated.Value) =>
 
   React.useEffect(() => {
     Animated.timing(animatedValue, {
-      toValue: visible ? 50 : -100,
+      toValue: visible ? 0 : -100,
       duration: 300,
       useNativeDriver: true,
     }).start();

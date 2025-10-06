@@ -1,4 +1,4 @@
-import { Animated, StyleSheet, Text, View } from 'react-native';
+import { Animated, StyleSheet, View } from 'react-native';
 
 import BasketBar from '@/components/basket/BasketBar';
 import ProductsList from '@/components/product/ProductsList';
@@ -27,18 +27,15 @@ function _SodasScreen(props: SodasScreenProps) {
   // - Use the hydrateProducts action to fetch and store products if not already done
   useHydrateProducts(products, hydrateProducts);
 
-  console.log("Rendering Sodas Screen with sodas:", Object.values(products));
+  console.log("Rendering Sodas Screen with sodas:");
 
   const animatedValue = React.useRef(new Animated.Value(visibleSnackbar ? 0 : 100)).current;
   const animatedStyle = useAnimatedBottomBar(visibleSnackbar ? 1 : 0, animatedValue);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Drinks</Text>
       <ProductsList />
-      <Animated.View style={[styles.basketBar,
-        { bottom: animatedStyle.transform[0].translateY }
-        ]}>
+      <Animated.View style={[styles.basketBar, animatedStyle]}>
         <BasketBar showSnackbar={visibleSnackbar} setSnackbarVisible={setVisibleSnackbar} />
       </Animated.View>
     </View>
@@ -58,11 +55,10 @@ const SodasScreen = connect(mapStateToProps, mapActionsToProps)(_SodasScreen);
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    flex: 1,
     alignItems: 'center',
     paddingVertical: 20,
     justifyContent: 'center',
-    height: '100%',
   },
   title: {
     fontSize: 20,

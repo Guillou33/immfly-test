@@ -11,7 +11,7 @@ interface OrderProps {
 const Order = (props: OrderProps) => {
   const basket = useSelector((state: RootState) => state.basket.basket);
   const products: Product = useSelector((state: RootState) => state.product.products);
-  console.log("Rendering Order with basket:", basket.productIds);
+  console.log("Rendering Order with basket:");
 
   const list = products;
 

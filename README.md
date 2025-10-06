@@ -10,9 +10,9 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    npm install
    ```
 
-2. Create env file and insert :
+2. Create .env file and insert the variable (URL of API):
    ```bash
-   echo 'API_URL = https://my-json-server.typicode.com/Guillou33/immfly-test-api' > .env.local
+   echo 'API_URL = https://my-json-server.typicode.com/Guillou33/immfly-test-api' > .env
    ```
 
 3. Start the app
@@ -42,7 +42,7 @@ You can start developing by editing the files inside the **app** directory. This
 - User can select price types (happy hour, retail, etc)
 - User can choose to pay with creadit card or by cash
 
-# Technical :
+# Technical Doc :
 
 The code is written in **TypeScript** for type safety and better IntelliSense support.
 

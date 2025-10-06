@@ -46,6 +46,5 @@
     "@types/react-test-renderer": "^19.1.0",
     "typescript": "~5.9.2"
   },
-  "private": true,
-  "packageManager": "yarn@4.10.3"
+  "private": true
 }

@@ -65,11 +65,33 @@ class ApiClient {
 }
 ```
 
+### Call example :
+```ts
+  const api = new ApiClient(Constants.expoConfig?.extra?.apiUrl);
+
+  const data = await api.post<{status: string}>('/payment', {method: paymentMethod, amount, currency: selectedCurrency});
+```
+
 ## App :
 The `app` folder correspond to the basic React Native Expo architecture.
 
 ## Components :
 The `components` folder correspond to the basic React Native Expo architecture.
+
+From Redux : a connection map from state to props are established in components in addition to useSelector.
+Example with the list of products component :
+```ts
+const mapStateToProps = (state: RootState) => ({
+  products: state.product.products,
+  basket: state.basket.basket,
+});
+const mapActionsToProps = (dispatch: any) => ({
+  updateBasket: (product: IProduct, quantity: number) => dispatch(updateBasket({product, quantity})),
+  handleStock: (product: IProduct, quantity: number) => dispatch(handleStock(product, quantity)),
+});
+
+const ProductsList = connect(mapStateToProps, mapActionsToProps)(_ProductsList);
+```
 
 ## Constants :
 The `constants` folder includes the types, enum and interfaces of a typescript project.
@@ -80,6 +102,25 @@ The project contains one folder /Store for the state management of the variables
 - a `configStore.ts` file initializing the store allowing to communicate data through components.
 - an `Action` folder containing the actions triggered while user interact with a functionnality.
   <b>This is mostly there that we handle up-to-date and consistent data between the Api and the app.</b>
+Example with the basket updated :
+```ts
+// Call the App dispatch
+export const updateBasket = (payload:{product: IProduct, quantity: number}) => (dispatch: AppDispatch) => _updateBasket(dispatch, payload);
+
+
+// Dispatch to the store
+export const _updateBasket = async (dispatch: AppDispatch, {product, quantity}: {product: IProduct, quantity: number}) => {
+    // HERE WE CAN INSERT API CALLS
+    // Example : await sendPayment(method, amount, selectedCurrency);
+    // -> See ## Api section
+    await dispatch({type: ActionTypes.UPDATE_BASKET, payload: {
+              productId: product.id,
+              quantity: quantity,
+              price: product.price
+        }});
+};
+
+```
 - a `Reducer` folder managing the state of each object related to the App.
 
 ## Hooks :

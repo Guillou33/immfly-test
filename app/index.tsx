@@ -17,6 +17,7 @@ interface SodasScreenProps {
   hydrateProducts: () => void;
 }
 
+// Main screen displaying the list of sodas and the basket bar
 function _SodasScreen(props: SodasScreenProps) {
   const {products, basket, hydrateProducts} = props;
   const {visibleSnackbar, setVisibleSnackbar} = useVisibleSnackbar(basket);

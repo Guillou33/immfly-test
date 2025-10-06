@@ -6,7 +6,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 
 import { useColorScheme } from '@/components/useColorScheme';
-import StoreProvider from './StoreProvider';
+import AppProvider from './AppProvider';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -49,7 +49,7 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <StoreProvider>
+    <AppProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           {/*<Stack.Screen name="modal" options={{ presentation: 'modal' }} /> */}
@@ -57,6 +57,6 @@ function RootLayoutNav() {
           <Stack.Screen name="payment" options={{ title: "Payment", headerShown: true }} />
         </Stack>
       </ThemeProvider>
-    </StoreProvider>
+    </AppProvider>
   );
 }

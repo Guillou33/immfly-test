@@ -35,11 +35,11 @@ const _BasketBar = (props: BasketBarProps) => {
 
   return (
         <View style={styles.basketbarView}>
-          <View style={{marginBottom: 10}}>
+          <View style={{marginBottom: 10, justifyContent: 'center', alignItems: 'center'}}>
             <Text style={{fontSize: 16, fontWeight: 'bold', flexDirection: 'row', alignItems: 'center'}}>
               Total price: {totalAmount.toString()} {conversions[selectedCurrency].symbol}
-              <ConvertedPrices amount={totalAmount} selectedCurrency={selectedCurrency} />
             </Text>
+            <ConvertedPrices amount={totalAmount} selectedCurrency={selectedCurrency} />
           </View>
           <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%'}}>
             <View style={{width: '20%'}}>

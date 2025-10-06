@@ -8,17 +8,15 @@ interface OrderProps {
   // Define any props if needed
 }
 
-const Order = (props: OrderProps) => {
+const Order = () => {
   const basket = useSelector((state: RootState) => state.basket.basket);
   const products: Product = useSelector((state: RootState) => state.product.products);
   console.log("Rendering Order with basket:");
 
-  const list = products;
-
   return (
     <View style={styles.container}>
+      <Text>Your order :</Text>
       <List.Section>
-        <Text>Your order :</Text>
         {basket.quantities !== undefined && Object.values(basket.quantities).map((item) => (
           <List.Item
             key={item.productId} 
@@ -38,6 +36,8 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#f5f5f5',
     width: '100%',
+    height: '100%',
+    alignItems: "center",
   },
   button: {
     // width: 30,

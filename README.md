@@ -10,7 +10,12 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    npm install
    ```
 
-2. Start the app
+2. Create env file and insert :
+   ```bash
+   echo 'API_URL = https://my-json-server.typicode.com/Guillou33/immfly-test-api' > .env.local
+   ```
+
+3. Start the app
 
    ```bash
    npx expo start

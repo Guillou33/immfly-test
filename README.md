@@ -1,60 +1,85 @@
-# Welcome to Sodas app 👋
+# 🥤 Welcome to **Sodas App**
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
-
-## Get started
-
-1. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-2. Create .env file and insert the variable (URL of API):
-   ```bash
-   echo 'API_URL = https://my-json-server.typicode.com/Guillou33/immfly-test-api' > .env
-   ```
-
-3. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-# Packages :
-
-- State management : [Redux](https://redux.js.org/)
-- UI : [React-native-paper](https://callstack.github.io/react-native-paper/)
-
-# Fonctionalities :
-
-- User can select multiple sodas and drop itinto a basket
-- User can select the currency of the prices
-- User can select price types (happy hour, retail, etc)
-- User can choose to pay with creadit card or by cash
-
-# Technical Doc :
-
-The code is written in **TypeScript** for type safety and better IntelliSense support.
-
-## Api :
-
-### Overview
-The `ApiClient` class provides a simple abstraction layer over the native **Fetch API**, allowing you to perform standard HTTP requests (`GET`, `POST`, `PUT`, `DELETE`) with built-in support for authentication tokens and JSON handling.
+A modern **React Native + Expo** application that allows users to select, manage, and purchase sodas with multiple currencies and payment options.
 
 ---
 
-### 🧱 Class Definition
+## 🚀 Project Overview
 
+This project was created using [**create-expo-app**](https://www.npmjs.com/package/create-expo-app) and leverages the power of:
+- ⚛️ React Native (Expo)
+- 🧠 Redux for global state management
+- 🎨 React Native Paper for UI components
+- 🧩 TypeScript for strong typing and IDE IntelliSense
+
+---
+
+## 📦 Installation & Setup
+
+### 1️⃣ Install Dependencies
+```bash
+npm install
+```
+
+### 2️⃣ Create a `.env` File
+Add your API URL to the environment file:
+```bash
+echo 'API_URL=https://my-json-server.typicode.com/Guillou33/immfly-test-api' > .env
+```
+
+### 3️⃣ Start the Application
+```bash
+npx expo start
+```
+
+Once started, you can run the app in:
+
+- [Development build](https://docs.expo.dev/develop/development-builds/introduction/)
+- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Expo Go](https://expo.dev/go) (for quick previews)
+
+---
+
+## 🧭 Project Structure
+
+```
+sodas-app/
+├── app/              # Main application screens and navigation
+├── components/       # Reusable UI components
+├── constants/        # Types, enums, and shared definitions
+├── hooks/            # Custom React hooks
+├── lib/              # Helper and data formatting utilities
+├── store/            # Redux store configuration, reducers, and actions
+├── .env              # Environment variables
+└── App.tsx           # Entry point
+```
+
+---
+
+## ⚙️ Features
+
+- 🥤 Select multiple sodas and add them to a basket
+- 💱 Choose display currency (EUR, USD, GBP)
+- 🕒 Toggle price types (e.g., *Happy Hour*, *Retail*)
+- 💳 Choose payment method (*Credit Card* or *Cash*)
+- 🔄 Consistent data flow between frontend and backend (API sync)
+
+---
+
+## 🧠 Technical Details
+
+### 🧾 Codebase
+Written entirely in **TypeScript** for better maintainability, scalability, and type safety.
+
+---
+
+## 🧩 API Client
+
+### Overview
+The `ApiClient` class provides an abstraction over the native **Fetch API**, offering a simple interface for REST requests (`GET`, `POST`, `PUT`, `DELETE`) with JSON handling and optional authentication.
+
+### Definition
 ```ts
 class ApiClient {
   private baseURL: string;
@@ -70,70 +95,91 @@ class ApiClient {
 }
 ```
 
-### Call example :
+### Example Usage
 ```ts
-  const api = new ApiClient(Constants.expoConfig?.extra?.apiUrl);
+const api = new ApiClient(Constants.expoConfig?.extra?.apiUrl);
 
-  const data = await api.post<{status: string}>('/payment', {method: paymentMethod, amount, currency: selectedCurrency});
+const data = await api.post<{ status: string }>('/payment', {
+  method: paymentMethod,
+  amount,
+  currency: selectedCurrency,
+});
 ```
 
-## App :
-The `app` folder correspond to the basic React Native Expo architecture.
+---
 
-## Components :
-The `components` folder correspond to the basic React Native Expo architecture.
+## 🧱 Application Architecture
 
-From Redux : a connection map from state to props are established in components in addition to useSelector.
-Example with the list of products component :
+### `app/`
+Contains screens, navigators, and routes following [Expo’s file-based routing](https://docs.expo.dev/router/introduction/).
+
+### `components/`
+Includes UI components connected to Redux state.
+
+Example: **ProductsList**
 ```ts
 const mapStateToProps = (state: RootState) => ({
   products: state.product.products,
   basket: state.basket.basket,
 });
+
 const mapActionsToProps = (dispatch: any) => ({
-  updateBasket: (product: IProduct, quantity: number) => dispatch(updateBasket({product, quantity})),
-  handleStock: (product: IProduct, quantity: number) => dispatch(handleStock(product, quantity)),
+  updateBasket: (product: IProduct, quantity: number) =>
+    dispatch(updateBasket({ product, quantity })),
+  handleStock: (product: IProduct, quantity: number) =>
+    dispatch(handleStock(product, quantity)),
 });
 
 const ProductsList = connect(mapStateToProps, mapActionsToProps)(_ProductsList);
 ```
 
-## Constants :
-The `constants` folder includes the types, enum and interfaces of a typescript project.
-It can also provide data formatting with the `format` folder where data shared between the app state and the Api is managed.
+---
 
-## Store :
-The project contains one folder /Store for the state management of the variables. It includes :
-- a `configStore.ts` file initializing the store allowing to communicate data through components.
-- an `Action` folder containing the actions triggered while user interact with a functionnality.
-  <b>This is mostly there that we handle up-to-date and consistent data between the Api and the app.</b>
-Example with the basket updated :
+### `constants/`
+Includes global **types**, **enums**, and **interfaces** used across the app.
+Also contains a `format/` folder for handling data transformations between API and app state.
+
+---
+
+### `store/` (Redux)
+Centralized state management.
+
+#### Structure
+- `configStore.ts` → initializes the store
+- `Actions/` → defines app actions triggered by user interactions
+- `Reducers/` → manages the state of specific features
+
+#### Example
 ```ts
-// Call the App dispatch
-export const updateBasket = (payload:{product: IProduct, quantity: number}) => (dispatch: AppDispatch) => _updateBasket(dispatch, payload);
+export const updateBasket =
+  (payload: { product: IProduct; quantity: number }) =>
+  (dispatch: AppDispatch) =>
+    _updateBasket(dispatch, payload);
 
-
-// Dispatch to the store
-export const _updateBasket = async (dispatch: AppDispatch, {product, quantity}: {product: IProduct, quantity: number}) => {
-    // HERE WE CAN INSERT API CALLS
-    // Example : await sendPayment(method, amount, selectedCurrency);
-    // -> See ## Api section
-    await dispatch({type: ActionTypes.UPDATE_BASKET, payload: {
-              productId: product.id,
-              quantity: quantity,
-              price: product.price
-        }});
+export const _updateBasket = async (
+  dispatch: AppDispatch,
+  { product, quantity }: { product: IProduct; quantity: number }
+) => {
+  // Optional API calls
+  await dispatch({
+    type: ActionTypes.UPDATE_BASKET,
+    payload: {
+      productId: product.id,
+      quantity,
+      price: product.price,
+    },
+  });
 };
-
 ```
-- a `Reducer` folder managing the state of each object related to the App.
 
-## Hooks :
-A `hooks` folder is created to allow developers to add custom hooks. Example :
+---
 
+### `hooks/`
+Custom React hooks to encapsulate reusable logic.
+
+#### Example: `useAnimatedBottomBar`
 ```ts
 const useAnimatedBottomBar = (visible: number, animatedValue: Animated.Value) => {
-
   React.useEffect(() => {
     Animated.timing(animatedValue, {
       toValue: visible ? 0 : -100,
@@ -145,38 +191,76 @@ const useAnimatedBottomBar = (visible: number, animatedValue: Animated.Value) =>
   return {
     transform: [{ translateY: animatedValue }],
   };
-}
-
-export default useAnimatedBottomBar;
+};
 ```
 
-The custom hook useAnimatedBottomBar manages the animation of a bottom bar in a React Native application.
-It uses React Native’s Animated API to smoothly show or hide the bar with a vertical translation animation.
+> This hook animates a bottom bar using React Native’s `Animated` API, smoothly showing or hiding it with vertical translation.
 
+---
 
-## Lib :
-Used to create custom function for UX, UI, calclating functions, etc.
-This is useful for easier access, updates, and efficient specific data management in applications.
-Example :
+### `lib/`
+Contains helper functions and utility logic.
 
+#### Example: `formatProducts`
 ```ts
 export const formatProducts = (products: ApiProduct[]) => {
-    return products.reduce((acc, product) => {
-        acc[product.id] = {
-            id: product.id,
-            title: product.name,
-            price: {
-                [Currency.EUR]: product.price.euro,
-                [Currency.USD]: product.price.dollar,
-                [Currency.GBP]: product.price.pound
-            },
-            initialStock: product.stock,
-            stock: product.stock,
-            img: product.img
-        };
-        return acc;
-    }, {} as Product);
-}
+  return products.reduce((acc, product) => {
+    acc[product.id] = {
+      id: product.id,
+      title: product.name,
+      price: {
+        [Currency.EUR]: product.price.euro,
+        [Currency.USD]: product.price.dollar,
+        [Currency.GBP]: product.price.pound,
+      },
+      initialStock: product.stock,
+      stock: product.stock,
+      img: product.img,
+    };
+    return acc;
+  }, {} as Product);
+};
 ```
 
-The `formatProducts` function transforms an array of product objects (`ApiProduct[]`) into a normalized object keyed by product IDs.
+> This utility normalizes an array of products into an object keyed by product ID for faster access and better state management.
+
+---
+
+## 🧰 Tech Stack
+
+| Layer | Technology |
+|-------|-------------|
+| Framework | [Expo](https://expo.dev) |
+| UI | [React Native Paper](https://callstack.github.io/react-native-paper/) |
+| State Management | [Redux](https://redux.js.org/) |
+| Language | [TypeScript](https://www.typescriptlang.org/) |
+| Data Handling | Custom API client & format utilities |
+
+---
+
+## 🧪 Testing & Development
+
+You can use Expo’s developer tools to preview and debug your app:
+- Press `r` to reload
+- Press `m` to toggle menu
+- Use **React Native Debugger** or **Flipper** for Redux inspection
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome!
+Please open a pull request or file an issue to improve functionality, performance, or documentation.
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
+See the [LICENSE](./LICENSE) file for details.
+
+---
+
+### 🧑‍💻 Author
+**Guillou33**
+📧 [Contact via GitHub Issues](https://github.com/Guillou33)

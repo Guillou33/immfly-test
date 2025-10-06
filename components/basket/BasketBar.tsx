@@ -39,7 +39,7 @@ const _BasketBar = (props: BasketBarProps) => {
             <Text style={{fontSize: 16, fontWeight: 'bold', flexDirection: 'row', alignItems: 'center'}}>
               Total price: {totalAmount.toString()} {conversions[selectedCurrency].symbol}
             </Text>
-            <ConvertedPrices amount={totalAmount} selectedCurrency={selectedCurrency} />
+            <ConvertedPrices basket={basket} selectedCurrency={selectedCurrency} selectedPriceType={selectedPriceType} />
           </View>
           <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%'}}>
             <View style={{width: '20%'}}>

@@ -39,7 +39,6 @@ export function _Payment(props: PaymentProps) {
   return (
     <View style={styles.container}>
         <Order />
-        {basket.paymentInfos !== "" && <Text>Sodas ordered - {basket.paymentInfos}</Text>}
         <Animated.View style={[styles.paymentMethod, animatedStyle]}>
           <Method basket={basket.basket} onSetPayment={setPayment} />
         </Animated.View>

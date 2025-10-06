@@ -1,25 +1,33 @@
 import { IBasket } from "@/constants/Store/Basket";
 import { IProduct, Product } from "@/constants/Store/Product";
-import { updateBasket } from "@/Store/Action/BasketAction";
+import { clearBasket, updateBasket } from "@/Store/Action/BasketAction";
 import { handleStock } from "@/Store/Action/ProductAction";
 import { RootState } from "@/Store/configStore";
 import { ScrollView, StyleSheet, View } from "react-native";
+import { Button } from "react-native-paper";
 import { connect } from "react-redux";
 import ProductItem from "./ProductItem";
 
 interface ProductsListProps {
+  onHydrateProducts: () => void;
   products: Product;
   basket: IBasket,
   updateBasket: (product: IProduct, quantity: number) => void;
   handleStock: (product: IProduct, quantity: number) => void;
+  clearBasket: () => void;
 }
 
 const _ProductsList = (props: ProductsListProps) => {
-  const {products, updateBasket, handleStock} = props;
+  const {products, updateBasket, handleStock, clearBasket, onHydrateProducts} = props;
   console.log("Rendering Products List with sodas");
 
   return (
     <ScrollView style={styles.list}>
+      <View style={{width: '100%', alignItems: 'center', justifyContent: 'center'}}>
+        <Button mode="contained" onPress={() => {clearBasket(); onHydrateProducts();}} style={styles.button}>
+          Clear Basket
+        </Button>
+      </View>
       <View style={styles.container}>
         {Object.values(products).map((product: IProduct) => (
           <View key={product.id} style={styles.card}>
@@ -42,6 +50,7 @@ const mapStateToProps = (state: RootState) => ({
 const mapActionsToProps = (dispatch: any) => ({
   updateBasket: (product: IProduct, quantity: number) => dispatch(updateBasket({product, quantity})),
   handleStock: (product: IProduct, quantity: number) => dispatch(handleStock(product, quantity)),
+  clearBasket: () => dispatch(clearBasket()),
 });
 
 const ProductsList = connect(mapStateToProps, mapActionsToProps)(_ProductsList);

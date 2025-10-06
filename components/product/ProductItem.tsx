@@ -76,7 +76,7 @@ const ProductItem = connect(mapStateToProps, mapActionsToProps)(_ProductItem);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: 150,
+    width: 175,
   },
   card: {
     flexDirection: 'row',
@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
+    width: 175,
 
   },
   tinyLogo: {

@@ -19,14 +19,8 @@ export const _updateBasket = async (dispatch: AppDispatch, {product, quantity}: 
         }});
 };
 
-export const clearBasket = () => {
-    return async (dispatch: AppDispatch) => {
-        try{
-            dispatch({type: ActionTypes.CLEAR_BASKET});
-        }catch(e: any){
-            console.error("Error clearing basket")
-        }
-    }
+export const _clearBasket = async (dispatch: AppDispatch) => {
+      await dispatch({type: ActionTypes.CLEAR_BASKET});
 }
 
 export const _setSelectedCurrency = async (dispatch: AppDispatch, currency: Currency) => {
@@ -45,3 +39,4 @@ export const setPaymentInfos = (method: IPaymentMethod, amount: number, selected
 export const updateBasket = (payload:{product: IProduct, quantity: number}) => (dispatch: AppDispatch) => _updateBasket(dispatch, payload);
 export const updateSelectedCurrency = (currency: Currency) => (dispatch: AppDispatch) => _setSelectedCurrency(dispatch, currency);
 export const updatePriceType = (priceType: PriceType) => (dispatch: AppDispatch) => _updatePriceType(dispatch, priceType);
+export const clearBasket = () => (dispatch: AppDispatch) => _clearBasket(dispatch);

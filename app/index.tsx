@@ -3,23 +3,26 @@ import { Animated, StyleSheet, View } from 'react-native';
 import BasketBar from '@/components/basket/BasketBar';
 import ProductsList from '@/components/product/ProductsList';
 import { Product } from '@/constants/Store/Product';
+import { clearBasket } from '@/Store/Action/BasketAction';
 import { hydrateProducts } from '@/Store/Action/ProductAction';
 import { AppDispatch, RootState } from '@/Store/configStore';
 import useAnimatedBottomBar from 'hooks/useAnimatedBottomBar';
 import { useHydrateProducts } from 'hooks/useHydrateRoducts';
 import { useVisibleSnackbar } from 'hooks/useVisibleSnackbar';
 import React from 'react';
+import { Button } from 'react-native-paper';
 import { connect } from 'react-redux';
 
 interface SodasScreenProps {
   products: Product;
   basket: RootState["basket"]["basket"];
   hydrateProducts: () => void;
+  clearBasket: () => void;
 }
 
 // Main screen displaying the list of sodas and the basket bar
 function _SodasScreen(props: SodasScreenProps) {
-  const {products, basket, hydrateProducts} = props;
+  const {products, basket, hydrateProducts, clearBasket} = props;
   const {visibleSnackbar, setVisibleSnackbar} = useVisibleSnackbar(basket);
 
   // Initial hydration of products :
@@ -35,7 +38,7 @@ function _SodasScreen(props: SodasScreenProps) {
 
   return (
     <View style={styles.container}>
-      <ProductsList />
+      <ProductsList onHydrateProducts={hydrateProducts}/>
       <Animated.View style={[styles.basketBar, animatedStyle]}>
         <BasketBar showSnackbar={visibleSnackbar} setSnackbarVisible={setVisibleSnackbar} />
       </Animated.View>
@@ -50,6 +53,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapActionsToProps = (dispatch: AppDispatch) => ({
   hydrateProducts: () => dispatch(hydrateProducts()),
+  clearBasket: () => dispatch(clearBasket()),
 });
 
 const SodasScreen = connect(mapStateToProps, mapActionsToProps)(_SodasScreen);
@@ -73,7 +77,11 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 10,
     justifyContent: 'center',
-  }
+  },
+  button: {
+    marginBottom: 20,
+    color: '#841584',
+  },
 });
 
 export default SodasScreen;

@@ -1,5 +1,7 @@
 import { Product } from "@/constants/Store/Product";
+import { conversions } from "@/constants/Util";
 import { RootState } from "@/Store/configStore";
+import { BasketState } from "@/Store/Reducer/BasketReducer";
 import { StyleSheet, Text, View } from "react-native";
 import { List } from "react-native-paper";
 import { useSelector } from "react-redux";
@@ -9,21 +11,28 @@ interface OrderProps {
 }
 
 const Order = () => {
-  const basket = useSelector((state: RootState) => state.basket.basket);
+  const basketState: BasketState = useSelector((state: RootState) => state.basket);
   const products: Product = useSelector((state: RootState) => state.product.products);
   console.log("Rendering Order with basket:");
 
+  const basket = basketState.basket;
+  const selec = basketState.selectedCurrency;
+  const paymentInfos = basketState.paymentInfos;
+
   return (
     <View style={styles.container}>
-      <Text>Your order :</Text>
+      <Text style={{fontSize: 20}}>
+        Your order : {paymentInfos !== "" && `Sodas ordered - ${paymentInfos}`}
+      </Text>
+
       <List.Section>
         {basket.quantities !== undefined && Object.values(basket.quantities).map((item) => (
           <List.Item
             key={item.productId} 
-            title={products[item.productId].title}
+            title={`${products[item.productId].title}`}
             left={() => (<List.Icon icon={products[item.productId].img} />)}
             style={styles.item}
-            description={`Quantity: ${item.quantity}`}
+            description={`Quantity: ${item.quantity} x ${products[item.productId].price[selec]} ${conversions[selec].symbol} = ${products[item.productId].price[selec] * item.quantity} ${conversions[selec].symbol}`}
           />
         ))}
       </List.Section>

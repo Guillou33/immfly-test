@@ -1,9 +1,9 @@
+import { sendPayment } from '@/api/Product';
 import { IPaymentMethod } from '@/constants/Store/Basket';
 import { IProduct, PriceType } from '@/constants/Store/Product';
 import { Currency, CurrencyPrice } from '@/constants/Util';
 import { AppDispatch } from '../configStore';
 import { ActionTypes } from './types';
-import { sendPayment } from '@/api/Product';
 
 export interface ProductInBasket {
     productId: number;

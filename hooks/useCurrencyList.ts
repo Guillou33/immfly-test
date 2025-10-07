@@ -2,6 +2,10 @@
 import { conversions, Currency } from "@/constants/Util";
 import { useState } from "react";
 
+// hooks/useCurrencyList.ts
+// Custom hook to manage currency selection
+// and provide a list of available currencies.
+// Used in PaperSelect component.
 export const useCurrencyList = () => {
 
   const [currency, setCurrency] = useState({

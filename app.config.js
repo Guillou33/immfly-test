@@ -10,6 +10,9 @@ export default {
     newArchEnabled: true,
     ios: {
       supportsTablet: true,
+      infoPlist: {
+        ITSAppUsesNonExemptEncryption: false
+      },
       bundleIdentifier: "com.gilles33.immflytest"
     },
     android: {

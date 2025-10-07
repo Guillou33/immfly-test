@@ -1,4 +1,4 @@
-import { Animated, StyleSheet, Text, View } from 'react-native';
+import { Animated, StyleSheet, View } from 'react-native';
 
 import Method from '@/components/basket/payment/Method';
 import Order from '@/components/basket/payment/Order';
@@ -12,7 +12,7 @@ import React from 'react';
 import { connect, useSelector } from 'react-redux';
 
 interface PaymentProps {
-  // Mapped from Redux
+  // Mapped from Redux : state to props
   basket: IBasket;
   setPaymentInfos: (method: IPaymentMethod, amount: number, selectedCurrency: Currency) => void;
   clearBasket: () => void;

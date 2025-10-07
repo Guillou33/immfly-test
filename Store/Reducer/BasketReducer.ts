@@ -81,7 +81,7 @@ export default function productReducer(state = INITIAL_STATE, action: any) {
           case ActionTypes.SET_PAYMENT_INFOS:
             return {
                 ...state,
-                paymentInfos: `${action.payload.amount} ${conversions[action.payload.selectedCurrency].symbol}. Payment with ${action.payload.method}.`
+                paymentInfos: `${action.payload.amount.toFixed(2).toString()} ${conversions[action.payload.selectedCurrency].symbol}. Payment with ${action.payload.method}.`
             };
           case ActionTypes.UPDATE_SELECTED_CURRENCY:
             return {

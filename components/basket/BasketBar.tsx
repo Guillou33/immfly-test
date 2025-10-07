@@ -15,7 +15,7 @@ import { connect, useSelector } from "react-redux";
 import ConvertedPrices from "./ConvertedPrices";
 
 interface BasketBarProps {
-  // Mapped from Redux
+  // Mapped from Redux : state to props
   updateSelectedCurrency: (currency: Currency) => void;
   updatePriceType: (priceType: PriceType) => void;
   basket: IBasket;

@@ -11,7 +11,7 @@ import ProductItem from "./ProductItem";
 interface ProductsListProps {
   // Inherit from parent component
   onHydrateProducts: () => void;
-  // Mapped from Redux
+  // Mapped from Redux : state to props
   products: Product;
   basket: IBasket,
   updateBasket: (product: IProduct, quantity: number) => void;
@@ -24,7 +24,7 @@ const _ProductsList = (props: ProductsListProps) => {
   console.log("Rendering Products List with sodas");
 
   return (
-    <ScrollView style={styles.list}>
+    <ScrollView style={styles.container}>
       <View style={{width: '100%', alignItems: 'center', justifyContent: 'center'}}>
         <Button mode="contained" onPress={() => {
           clearBasket();
@@ -33,7 +33,7 @@ const _ProductsList = (props: ProductsListProps) => {
           Clear Basket
         </Button>
       </View>
-      <View style={styles.container}>
+      <View style={styles.list}>
         {Object.values(products).map((product: IProduct) => (
           <View key={product.id} style={styles.card}>
             <ProductItem
@@ -62,8 +62,13 @@ const ProductsList = connect(mapStateToProps, mapActionsToProps)(_ProductsList);
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    flex: 1,
+    width: '100%',
+    marginBottom: 100,
     backgroundColor: '#f5f5f5',
+  },
+  list: {
+    padding: 10,
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-around",
@@ -79,10 +84,6 @@ const styles = StyleSheet.create({
   button: {
     marginBottom: 20,
     color: '#841584',
-  },
-  list: {
-    flex: 1,
-    width: '100%',
   },
 });
 

@@ -16,7 +16,7 @@ interface ProductItemProps {
   product: IProduct;
   onUpdateBasket: (product: IProduct, quantity: number) => void;
   onHandleStock: (product: IProduct, quantity: number) => void;
-  // Mapped from Redux
+  // Mapped from Redux : state to props
   basket: BasketState;
 }
 

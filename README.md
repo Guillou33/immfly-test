@@ -46,13 +46,13 @@ Once started, you can run the app in:
 ```
 sodas-app/
 ├── app/              # Main application screens and navigation
+├── api/              # Communication with back-end / API
 ├── components/       # Reusable UI components
 ├── constants/        # Types, enums, and shared definitions
 ├── hooks/            # Custom React hooks
 ├── lib/              # Helper and data formatting utilities
 ├── store/            # Redux store configuration, reducers, and actions
 ├── .env              # Environment variables
-└── App.tsx           # Entry point
 ```
 
 ---
@@ -63,7 +63,6 @@ sodas-app/
 - 💱 Choose display currency (EUR, USD, GBP)
 - 🕒 Toggle price types (e.g., *Happy Hour*, *Retail*)
 - 💳 Choose payment method (*Credit Card* or *Cash*)
-- 🔄 Consistent data flow between frontend and backend (API sync)
 
 ---
 

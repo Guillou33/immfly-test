@@ -52,7 +52,6 @@ sodas-app/
 ├── hooks/            # Custom React hooks
 ├── lib/              # Helper and data formatting utilities
 ├── store/            # Redux store configuration, reducers, and actions
-├── .env              # Environment variables
 ```
 
 ---

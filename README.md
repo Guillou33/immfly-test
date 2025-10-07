@@ -115,6 +115,10 @@ See 🧩 API Client section above.
 ### `app/`
 Contains screens, navigators, and routes following [Expo’s file-based routing](https://docs.expo.dev/router/introduction/).
 
+#### Providers
+The `AppProvider` component acts as a **global wrapper** for the entire React Native application.
+It provides access to both the **Redux store** and **React Native Paper UI theme**, ensuring that any component within the app can access global state and consistent UI styling.
+
 ### `components/`
 Includes UI components connected to Redux state.
 

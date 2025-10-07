@@ -12,6 +12,7 @@ import React from 'react';
 import { connect, useSelector } from 'react-redux';
 
 interface PaymentProps {
+  // Mapped from Redux
   basket: IBasket;
   setPaymentInfos: (method: IPaymentMethod, amount: number, selectedCurrency: Currency) => void;
   clearBasket: () => void;
@@ -46,7 +47,6 @@ export function _Payment(props: PaymentProps) {
   );
 }
 const mapStateToProps = (state: RootState) => ({
-    // products: state.product.products,
     basket: state.basket.basket,
 });
 

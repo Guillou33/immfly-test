@@ -5,6 +5,7 @@ import { getTotal } from "@/lib/conversion";
 import { Text } from "react-native-paper";
 
 interface ConvertedPricesProps {
+  // Inherit from parent component
   basket: IBasket;
   selectedCurrency: Currency;
   selectedPriceType: PriceType;

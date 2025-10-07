@@ -9,7 +9,9 @@ import { connect } from "react-redux";
 import ProductItem from "./ProductItem";
 
 interface ProductsListProps {
+  // Inherit from parent component
   onHydrateProducts: () => void;
+  // Mapped from Redux
   products: Product;
   basket: IBasket,
   updateBasket: (product: IProduct, quantity: number) => void;
@@ -24,7 +26,10 @@ const _ProductsList = (props: ProductsListProps) => {
   return (
     <ScrollView style={styles.list}>
       <View style={{width: '100%', alignItems: 'center', justifyContent: 'center'}}>
-        <Button mode="contained" onPress={() => {clearBasket(); onHydrateProducts();}} style={styles.button}>
+        <Button mode="contained" onPress={() => {
+          clearBasket();
+          onHydrateProducts();
+        }} style={styles.button}>
           Clear Basket
         </Button>
       </View>

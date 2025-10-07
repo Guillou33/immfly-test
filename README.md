@@ -110,12 +110,16 @@ const data = await api.post<{ status: string }>('/payment', {
 
 ## 🧱 Application Architecture
 
+### `api/`
+See 🧩 API Client section above.
+
 ### `app/`
 Contains screens, navigators, and routes following [Expo’s file-based routing](https://docs.expo.dev/router/introduction/).
 
 ### `components/`
 Includes UI components connected to Redux state.
 
+Use of state in reducers and actions to dispatch state in the Store.
 Example: **ProductsList**
 ```ts
 const mapStateToProps = (state: RootState) => ({
@@ -141,16 +145,17 @@ Also contains a `format/` folder for handling data transformations between API a
 
 ---
 
-### `store/` (Redux)
+### `Store/` (Redux)
 Centralized state management.
 
 #### Structure
 - `configStore.ts` → initializes the store
-- `Actions/` → defines app actions triggered by user interactions
+- `Actions/` → defines app actions triggered by user interactions (see example below).
 - `Reducers/` → manages the state of specific features
 
 #### Example
 ```ts
+// BasketAction.ts
 export const updateBasket =
   (payload: { product: IProduct; quantity: number }) =>
   (dispatch: AppDispatch) =>

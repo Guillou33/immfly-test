@@ -30,7 +30,7 @@ export const _updatePriceType = async (dispatch: AppDispatch, priceType: PriceTy
     await dispatch({type: ActionTypes.UPDATE_SELECTED_PRICE_TYPE, payload: priceType});
 }
 export const _setPaymentInfos = async (dispatch: AppDispatch, method: IPaymentMethod, amount: number, selectedCurrency: Currency) => {
-  await dispatch({type: ActionTypes.SET_PAYMENT_INFOS, payload: {method}});
+  await dispatch({type: ActionTypes.SET_PAYMENT_INFOS, payload: {method, amount, selectedCurrency}});
   await sendPayment(method, amount, selectedCurrency);
 
 }

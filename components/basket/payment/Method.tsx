@@ -6,7 +6,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 
 interface PaymentMethodProps {
-  // Define any props if needed
+  // Inherit from parent component
   basket: IBasket;
   onSetPayment: (method: IPaymentMethod) => void;
 }

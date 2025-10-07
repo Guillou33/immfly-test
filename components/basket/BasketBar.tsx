@@ -15,15 +15,14 @@ import { connect, useSelector } from "react-redux";
 import ConvertedPrices from "./ConvertedPrices";
 
 interface BasketBarProps {
-  showSnackbar: boolean;
-  setSnackbarVisible: (visible: boolean) => void;
+  // Mapped from Redux
   updateSelectedCurrency: (currency: Currency) => void;
   updatePriceType: (priceType: PriceType) => void;
   basket: IBasket;
 }
 
 const _BasketBar = (props: BasketBarProps) => {
-  const { showSnackbar, setSnackbarVisible, updateSelectedCurrency, updatePriceType, basket } = props;
+  const { updateSelectedCurrency, updatePriceType, basket } = props;
   const router = useRouter();
   const selectedCurrency: Currency = useSelector((state: RootState) => state.basket.selectedCurrency); // This should be managed via state or props
   const selectedPriceType: PriceType = useSelector((state: RootState) => state.basket.selectedPriceType); // This should be managed via state or props

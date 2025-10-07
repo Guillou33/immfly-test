@@ -1,7 +1,7 @@
 
 import { IBasket } from "@/constants/Store/Basket";
 import { PriceType } from "@/constants/Store/Product";
-import { Currency, CurrencyPrice } from "@/constants/Util";
+import { conversions, Currency, CurrencyPrice } from "@/constants/Util";
 import { ActionTypes } from "../Action/types";
 
 export interface BasketState {
@@ -74,13 +74,14 @@ export default function productReducer(state = INITIAL_STATE, action: any) {
                           productId: data.productId
                       }
                   },
+                  // set new total prices for all currencies
                   totalPrices: setNewTotalPrices(state.basket.totalPrices, data.quantity, data.price)
               }
           };
           case ActionTypes.SET_PAYMENT_INFOS:
             return {
                 ...state,
-                paymentInfos: `Payment with ${action.payload.method}`
+                paymentInfos: `${action.payload.amount} ${conversions[action.payload.selectedCurrency].symbol}. Payment with ${action.payload.method}.`
             };
           case ActionTypes.UPDATE_SELECTED_CURRENCY:
             return {

@@ -6,10 +6,6 @@ import { StyleSheet, Text, View } from "react-native";
 import { List } from "react-native-paper";
 import { useSelector } from "react-redux";
 
-interface OrderProps {
-  // Define any props if needed
-}
-
 const Order = () => {
   const basketState: BasketState = useSelector((state: RootState) => state.basket);
   const products: Product = useSelector((state: RootState) => state.product.products);
@@ -22,7 +18,7 @@ const Order = () => {
   return (
     <View style={styles.container}>
       <Text style={{fontSize: 20}}>
-        Your order : {paymentInfos !== "" && `Sodas ordered - ${paymentInfos}`}
+        Your order : {paymentInfos !== "" && `Sodas ordered : ${paymentInfos}`}
       </Text>
 
       <List.Section>

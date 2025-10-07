@@ -12,10 +12,12 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { connect } from 'react-redux';
 
 interface ProductItemProps {
+  // Inherit from parent component
   product: IProduct;
-  basket: BasketState;
   onUpdateBasket: (product: IProduct, quantity: number) => void;
   onHandleStock: (product: IProduct, quantity: number) => void;
+  // Mapped from Redux
+  basket: BasketState;
 }
 
 const _ProductItem = (props: ProductItemProps) => {
@@ -49,7 +51,10 @@ const _ProductItem = (props: ProductItemProps) => {
             <Text>
               Price : {getPriceType(product.price[selectedCurrency], selectedPriceType).toFixed(2)} {conversions[selectedCurrency].symbol}
             </Text>
-            <Text>Stock : {product.stock}</Text>
+            {/* <Text>Stock : {product.stock}</Text> */}
+            <Text>In Basket : {basketInfo.quantities[product.id] ? basketInfo.quantities[product.id].quantity : 0}</Text>
+          </View>
+          <View>
             <View style={styles.btnView}>
               <Button style={styles.button_1} disabled={disableAdd} mode="contained" onPress={() => onUpdateOrder(product, 1)}>
                 +

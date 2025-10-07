@@ -23,6 +23,7 @@ export const fetchProducts = async () => {
   }
 }
 
+// POST request to send payment info to the server
 export const sendPayment = async (paymentMethod: string, amount: number, selectedCurrency: Currency) => {
 
   try {
